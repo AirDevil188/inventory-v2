@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <title><%= title %></title>
+  </head>
+  <body>
+    <%- include('navbar', {navLinks: navLinks}) %>
+    <section class="form-section">
+      <form action="/create-game" method="POST">
+        <div class="form-group">
+          <label for="title">Title: </label>
+          <input type="text" id="title" name="title" required />
+        </div>
+        <div class="form-group">
+          <label for="publisher">Publisher: </label>
+          <% if (publishers.length > 0) { %>
+          <select name="publisher" id="publisher">
+            <% publishers.forEach((publisher) => { %>
+            <option value="<%= publisher.id%>"><%= publisher.name %></option>
+            <% }) %> <% } else { %>
+            <p>There are no publishers!</p>
+            <% } %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="developer">Developer: </label>
+          <% if (developers.length > 0) { %>
+          <select name="developer" id="developer">
+            <% developers.forEach((developer) => { %>
+            <option value="<%= developer.id%>"><%= developer.name %></option>
+            <% }) %> <% } else { %>
+            <p>There are no developers!</p>
+            <% } %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="platform">Platform: </label>
+          <% if (platforms.length > 0) { %> <% platforms.forEach((platform) => {
+          %>
+          <div>
+            <input
+              type="radio"
+              id="<%= platform.id %>"
+              name="platform"
+              value="<%= platform.id %>"
+              checked
+            />
+            <label for="platform"><%= platform.name %> </label>
+          </div>
+
+          <% }) %> <% } else { %>
+          <p>There are no platforms!</p>
+          <% } %>
+        </div>
+        <div class="form-group">
+          <label for="genre">Genre: </label>
+          <% if (genres.length > 0) { %>
+          <select name="genre" id="genre" required>
+            <% genres.forEach((genre) => { %>
+            <option value="<%= genre.id %>"><%= genre.name %></option>
+            <% }) %> <% } else { %>
+            <p>There are no genres!</p>
+            <% } %>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="date_of_release">Release Date: </label>
+          <input
+            type="date"
+            ,
+            id="date_of_release"
+            ,
+            name="date_of_release"
+            required
+          />
+        </div>
+        <button type="submit">Submit</button>
+      </form>
+    </section>
+  </body>
+</html>
