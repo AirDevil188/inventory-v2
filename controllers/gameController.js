@@ -2,6 +2,30 @@ const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const db = require("../db/queries");
 
+const lengthErr = "must contain at least one character.";
+const selectionErr = "must be selected.";
+
+const validateGame = [
+  body("title")
+    .trim()
+    .isLength({ min: 1 })
+    .withMessage(`Game Title ${lengthErr}`),
+
+  body("developer")
+    .trim()
+    .notEmpty()
+    .withMessage(`Game Developer ${selectionErr}`),
+  body("platform")
+    .trim()
+    .notEmpty()
+    .withMessage(`Game Platform ${selectionErr}`),
+  body("genre").trim().notEmpty().withMessage(`Game Genre ${selectionErr}`),
+  body("date_of_release")
+    .trim()
+    .notEmpty()
+    .withMessage(`Game Release Date ${selectionErr}`),
+];
+
 const navLinks = [
   {
     href: "/",
@@ -50,7 +74,10 @@ const navLinks = [
 ];
 
 const getIndex = asyncHandler(async (req, res, next) => {
-  res.render("index", { title: "Homepage", navLinks: navLinks });
+  const games = await db.getGames();
+
+  res.render("index", { title: "Homepage", navLinks: navLinks, games: games });
+  console.log(games);
 });
 
 const getCreateGameForm = asyncHandler(async (req, res, next) => {
@@ -69,7 +96,44 @@ const getCreateGameForm = asyncHandler(async (req, res, next) => {
   });
 });
 
+const postCreateGameForm = [
+  validateGame,
+  asyncHandler(async (req, res, next) => {
+    console.log(req.body);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      const publishers = await db.getPublishers();
+      const developers = await db.getDevelopers();
+      const platforms = await db.getPlatforms();
+      const genres = await db.getGenres();
+      return res.status(400).render("gameForm", {
+        title: "Add new Game",
+        navLinks: navLinks,
+        publishers: publishers,
+        developers: developers,
+        platforms: platforms,
+        genres: genres,
+        errors: errors.array(),
+      });
+    }
+
+    const { title, publisher, developer, platform, genre, date_of_release } =
+      req.body;
+
+    await db.insertGame(
+      title,
+      publisher,
+      developer,
+      platform,
+      genre,
+      date_of_release
+    );
+    res.redirect("/");
+  }),
+];
+
 module.exports = {
   getIndex,
   getCreateGameForm,
+  postCreateGameForm,
 };
