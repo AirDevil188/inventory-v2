@@ -12,4 +12,9 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 app.use("/", indexRouter);
 
+app.use((req, res, next, err) => {
+  console.error(err);
+  return res.status(500).send(err);
+});
+
 app.listen(PORT, () => console.log(`App is listening on the ${PORT}`));
