@@ -11,14 +11,15 @@ async function getGames() {
             developer.name as developer
         FROM game
             INNER JOIN genre
-                ON genre.id = game.id
+                ON genre.id = game.genre
             INNER JOIN platform
-                ON platform.id = game.id
+                ON platform.id = game.platform
             INNER JOIN developer
-                ON developer.id = game.id
+                ON developer.id = game.developer
             INNER JOIN publisher
-                ON publisher.id = game.id
+                ON publisher.id = game.publisher
         `);
+  console.log(rows);
   return rows;
 }
 
