@@ -1,28 +1,5 @@
 const pool = require("../db/pool");
 
-async function getGames() {
-  const { rows } = await pool.query(`
-        SELECT 
-            game.title as title,
-            game.date_of_release as date_of_release,
-            genre.name as genre,
-            platform.name as platform,
-            publisher.name as publisher,
-            developer.name as developer
-        FROM game
-            INNER JOIN genre
-                ON genre.id = game.genre
-            INNER JOIN platform
-                ON platform.id = game.platform
-            INNER JOIN developer
-                ON developer.id = game.developer
-            INNER JOIN publisher
-                ON publisher.id = game.publisher
-        `);
-  console.log(rows);
-  return rows;
-}
-
 async function getPublishers() {
   const { rows } = await pool.query("SELECT id, name FROM publisher");
   return rows;
@@ -47,17 +24,42 @@ async function insertGame(
   title,
   publisher,
   developer,
-  platform,
+  platforms,
   genre,
   date_of_release
 ) {
-  await pool.query(
-    "INSERT INTO game(title, publisher, developer, platform, genre, date_of_release) VALUES ($1, $2, $3, $4, $5, $6)",
-    [title, publisher, developer, platform, genre, date_of_release]
-  );
+  try {
+    await pool.query(
+      "INSERT INTO game(title, publisher, developer, genre, date_of_release) VALUES($1, $2, $3, $4, $5)",
+      [title, publisher, developer, genre, date_of_release]
+    );
+    const selectedGame = await pool.query(
+      `
+      SELECT id FROM game
+      WHERE title = '${title}'
+      AND developer = '${developer}'
+      `
+    );
+    insertGamePlatform(selectedGame.rows[0].id, platforms);
+    console.log(selectedGame.rows[0].id);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+async function insertGamePlatform(gameid, platforms) {
+  for (let i = 0; i < platforms.length; i++) {
+    try {
+      await pool.query(
+        "INSERT INTO game_platform(game_id, platform_id) VALUES ($1, $2)",
+        [gameid, platforms[i]]
+      );
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }
 module.exports = {
-  getGames,
   getPublishers,
   getDevelopers,
   getPlatforms,
