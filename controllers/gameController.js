@@ -15,7 +15,7 @@ const validateGame = [
     .trim()
     .notEmpty()
     .withMessage(`Game Developer ${selectionErr}`),
-  body("platform")
+  body("platforms")
     .trim()
     .notEmpty()
     .withMessage(`Game Platform ${selectionErr}`),
@@ -74,10 +74,23 @@ const navLinks = [
 ];
 
 const getIndex = asyncHandler(async (req, res, next) => {
-  const games = await Promise(db.getGames());
+  const [games, publishers, developers, platforms, genres] = await Promise.all([
+    db.countGames(),
+    db.countPublishers(),
+    db.countDevelopers(),
+    db.countPlatforms(),
+    db.countGenres(),
+  ]);
 
-  res.render("index", { title: "Homepage", navLinks: navLinks, games: games });
-  console.log(games);
+  res.render("index", {
+    title: "Homepage",
+    navLinks: navLinks,
+    games: games,
+    publishers: publishers,
+    developers: developers,
+    platforms: platforms,
+    genres: genres,
+  });
 });
 
 const getCreateGameForm = asyncHandler(async (req, res, next) => {
@@ -101,7 +114,6 @@ const getCreateGameForm = asyncHandler(async (req, res, next) => {
 const postCreateGameForm = [
   validateGame,
   asyncHandler(async (req, res, next) => {
-    console.log(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       const [publishers, developers, platforms, genres] = await Promise.all([
@@ -122,14 +134,14 @@ const postCreateGameForm = [
       });
     }
 
-    const { title, publisher, developer, platform, genre, date_of_release } =
+    const { title, publisher, developer, platforms, genre, date_of_release } =
       req.body;
 
     await db.insertGame(
       title,
       publisher,
       developer,
-      platform,
+      platforms,
       genre,
       date_of_release
     );
