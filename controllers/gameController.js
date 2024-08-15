@@ -74,17 +74,19 @@ const navLinks = [
 ];
 
 const getIndex = asyncHandler(async (req, res, next) => {
-  const games = await db.getGames();
+  const games = await Promise(db.getGames());
 
   res.render("index", { title: "Homepage", navLinks: navLinks, games: games });
   console.log(games);
 });
 
 const getCreateGameForm = asyncHandler(async (req, res, next) => {
-  const publishers = await db.getPublishers();
-  const developers = await db.getDevelopers();
-  const platforms = await db.getPlatforms();
-  const genres = await db.getGenres();
+  const [publishers, developers, platforms, genres] = await Promise.all([
+    db.getPublishers(),
+    db.getDevelopers(),
+    db.getPlatforms(),
+    db.getGenres(),
+  ]);
 
   res.render("gameForm", {
     title: "Add new Game",
@@ -102,10 +104,13 @@ const postCreateGameForm = [
     console.log(req.body);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-      const publishers = await db.getPublishers();
-      const developers = await db.getDevelopers();
-      const platforms = await db.getPlatforms();
-      const genres = await db.getGenres();
+      const [publishers, developers, platforms, genres] = await Promise.all([
+        db.getPublishers(),
+        db.getDevelopers(),
+        db.getPlatforms(),
+        db.getGenres(),
+      ]);
+
       return res.status(400).render("gameForm", {
         title: "Add new Game",
         navLinks: navLinks,
