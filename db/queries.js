@@ -15,6 +15,16 @@ async function getPlatforms() {
   return rows;
 }
 
+async function getGamePlatform(id) {
+  const { rows } = await pool.query(`SELECT platform.name as platform_name 
+        FROM platform
+        INNER JOIN game_platform
+        ON platform.id = platform_id
+        WHERE game_id = '${id}'
+        `);
+  return rows;
+}
+
 async function getGenres() {
   const { rows } = await pool.query("SELECT * FROM genre");
   return rows;
@@ -59,10 +69,12 @@ async function insertGamePlatform(gameid, platforms) {
     }
   }
 }
+
 module.exports = {
   getPublishers,
   getDevelopers,
   getPlatforms,
   getGenres,
+  getGamePlatform,
   insertGame,
 };
