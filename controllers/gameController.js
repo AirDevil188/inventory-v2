@@ -99,6 +99,12 @@ const getGameDetail = asyncHandler(async (req, res, next) => {
     db.getGamePlatform(req.params.id),
   ]);
 
+  if (!game) {
+    const err = new Error("Game not found!");
+    err.status = 404;
+    return next(err);
+  }
+
   console.log(game);
   console.log(platforms);
   res.render("game_detail", {
@@ -161,6 +167,7 @@ const postCreateGameForm = [
       genre,
       date_of_release
     );
+
     res.redirect("/");
   }),
 ];
