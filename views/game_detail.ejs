@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <title><%= title %></title>
+    <body>
+      <%- include('navbar', {navLinks: navLinks}) %>
+      <main>
+        <section class="game-detail-section">
+          <% if (game) { %> <% game.forEach(game => { %>
+          <div class="game-title">
+            <h3><%= game.game_title %></h3>
+          </div>
+          <div class="game-publisher">
+            <span><strong>Publisher: </strong><%= game.game_publisher %></span>
+          </div>
+          <div class="game-developer">
+            <span><strong>Developer: </strong><%= game.game_developer %></span>
+          </div>
+          <div class="game-platforms">
+            <strong>Platform: </strong>
+            <% platforms.forEach(platform => { %>
+            <span> <%= platform.platform_name %></span>
+            <%}) %>
+          </div>
+          <div class="game-date-of-release">
+            <span
+              ><strong>Release Date: </strong><%= game.game_release_date
+              %></span
+            >
+          </div>
+          <% }) %> <% } else { %>
+
+          <p>Game not Found</p>
+          <%} %>
+        </section>
+      </main>
+    </body>
+  </head>
+</html>
