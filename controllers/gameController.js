@@ -93,6 +93,22 @@ const getIndex = asyncHandler(async (req, res, next) => {
   });
 });
 
+const getGameDetail = asyncHandler(async (req, res, next) => {
+  const [game, platforms] = await Promise.all([
+    db.getGameDetails(req.params.id),
+    db.getGamePlatform(req.params.id),
+  ]);
+
+  console.log(game);
+  console.log(platforms);
+  res.render("game_detail", {
+    title: "Game Detail",
+    game: game,
+    platforms: platforms,
+    navLinks: navLinks,
+  });
+});
+
 const getCreateGameForm = asyncHandler(async (req, res, next) => {
   const [publishers, developers, platforms, genres] = await Promise.all([
     db.getPublishers(),
@@ -152,5 +168,6 @@ const postCreateGameForm = [
 module.exports = {
   getIndex,
   getCreateGameForm,
+  getGameDetail,
   postCreateGameForm,
 };
