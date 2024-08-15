@@ -24,7 +24,7 @@
         <div class="form-group">
           <label for="developer">Developer: </label>
           <% if (developers.length > 0) { %>
-          <select name="developer" id="developer">
+          <select name="developer" id="developer" required>
             <% developers.forEach((developer) => { %>
             <option value="<%= developer.id%>"><%= developer.name %></option>
             <% }) %> <% } else { %>
@@ -33,21 +33,17 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="platform">Platform: </label>
           <% if (platforms.length > 0) { %> <% platforms.forEach((platform) => {
           %>
-          <div>
-            <input
-              type="radio"
-              id="<%= platform.id %>"
-              name="platform"
-              value="<%= platform.id %>"
-              checked
-            />
-            <label for="platform"><%= platform.name %> </label>
-          </div>
 
-          <% }) %> <% } else { %>
+          <input
+            type="checkbox"
+            id="<%= platform.id %>"
+            name="platform"
+            value="<%= platform.id %>"
+          />
+          <label for="<%= platform.id %>"><%=platform.name %></label> <% }) %>
+          <% } else { %>
           <p>There are no platforms!</p>
           <% } %>
         </div>
@@ -75,6 +71,7 @@
         </div>
         <button type="submit">Submit</button>
       </form>
+      <%- include("errors") %>
     </section>
   </body>
 </html>
