@@ -4,5 +4,16 @@
   </head>
   <body>
     <%- include('navbar', {navLinks: navLinks}) %>
+    <main>
+      <section class="items">
+        <ul>
+          <li>Games: <%=games %></li>
+          <li>Publishers: <%=publishers %></li>
+          <li>Developers: <%=developers %></li>
+          <li>Platforms: <%=platforms %></li>
+          <li>Genres: <%=genres %></li>
+        </ul>
+      </section>
+    </main>
   </body>
 </html>
