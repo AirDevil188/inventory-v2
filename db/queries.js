@@ -40,6 +40,28 @@ async function getPlatforms() {
   return rows;
 }
 
+async function getGameDetails(id) {
+  try {
+    const { rows } = await pool.query(`
+            SELECT 
+            game.title as game_title, game.publisher as game_publisher, 
+            developer.name as game_developer, genre.name as game_genre,
+            game.date_of_release as game_release_date, publisher.name as game_publisher
+            from game
+            INNER JOIN publisher
+            ON publisher.id = game.publisher
+            INNER JOIN developer
+            ON developer.id =  game.developer
+            INNER JOIN genre
+            ON genre.id = game.genre
+            WHERE game.id = '${id}'`);
+
+    return rows[0];
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 async function getGamePlatform(id) {
   const { rows } = await pool.query(`SELECT platform.name as platform_name 
         FROM platform
@@ -65,21 +87,23 @@ async function insertGame(
 ) {
   try {
     await pool.query(
-      "INSERT INTO game(title, publisher, developer, genre, date_of_release) VALUES($1, $2, $3, $4, $5)",
+      `
+    INSERT INTO game(title, publisher, developer, genre, date_of_release) VALUES($1, $2, $3, $4, $5)
+    `,
       [title, publisher, developer, genre, date_of_release]
     );
-    const selectedGame = await pool.query(
-      `
+  } catch (e) {
+    console.log(e);
+  }
+  const selectedGame = await pool.query(
+    `
       SELECT id FROM game
       WHERE title = '${title}'
       AND developer = '${developer}'
       `
-    );
-    insertGamePlatform(selectedGame.rows[0].id, platforms);
-    console.log(selectedGame.rows[0].id);
-  } catch (e) {
-    console.log(e);
-  }
+  );
+
+  insertGamePlatform(selectedGame.rows[0].id, platforms);
 }
 
 async function insertGamePlatform(gameid, platforms) {
@@ -106,5 +130,6 @@ module.exports = {
   getPlatforms,
   getGenres,
   getGamePlatform,
+  getGameDetails,
   insertGame,
 };
