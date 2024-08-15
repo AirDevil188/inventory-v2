@@ -1,5 +1,30 @@
 const pool = require("../db/pool");
 
+async function countGames() {
+  const { rows } = await pool.query("SELECT COUNT(id) FROM game");
+  return rows[0].count;
+}
+
+async function countPublishers() {
+  const { rows } = await pool.query("SELECT COUNT(id) FROM publisher");
+  return rows[0].count;
+}
+
+async function countDevelopers() {
+  const { rows } = await pool.query("SELECT COUNT(id) FROM developer");
+  return rows[0].count;
+}
+
+async function countPlatforms() {
+  const { rows } = await pool.query("SELECT COUNT(id) FROM platform");
+  return rows[0].count;
+}
+
+async function countGenres() {
+  const { rows } = await pool.query("SELECT COUNT (id) FROM genre");
+  return rows[0].count;
+}
+
 async function getPublishers() {
   const { rows } = await pool.query("SELECT id, name FROM publisher");
   return rows;
@@ -71,6 +96,11 @@ async function insertGamePlatform(gameid, platforms) {
 }
 
 module.exports = {
+  countGames,
+  countPublishers,
+  countDevelopers,
+  countPlatforms,
+  countGenres,
   getPublishers,
   getDevelopers,
   getPlatforms,
