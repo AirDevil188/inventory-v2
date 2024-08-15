@@ -88,7 +88,7 @@ const getCreateGameForm = asyncHandler(async (req, res, next) => {
     db.getGenres(),
   ]);
 
-  res.render("gameForm", {
+  res.render("game_form", {
     title: "Add new Game",
     navLinks: navLinks,
     publishers: publishers,
@@ -111,7 +111,7 @@ const postCreateGameForm = [
         db.getGenres(),
       ]);
 
-      return res.status(400).render("gameForm", {
+      return res.status(400).render("game_form", {
         title: "Add new Game",
         navLinks: navLinks,
         publishers: publishers,
