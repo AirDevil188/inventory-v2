@@ -6,6 +6,7 @@ dotenv.config();
 
 const indexRouter = require("./routes/indexRouter");
 const gameRouter = require("./routes/gameRouter");
+const publisherRouter = require("./routes/publisherRouter");
 const developerRouter = require("./routes/developerRouter");
 const platformRouter = require("./routes/platformRouter");
 const genreRouter = require("./routes/genreRouter");
@@ -17,7 +18,8 @@ app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/", indexRouter);
-app.use("/game", gameRouter);
+app.use("/games", gameRouter);
+app.use("/publishers", publisherRouter);
 app.use("/developers", developerRouter);
 app.use("/genres", genreRouter);
 app.use("/platforms", platformRouter);

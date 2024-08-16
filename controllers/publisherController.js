@@ -13,4 +13,4 @@ const getPublishers = asyncHandler(async (req, res, next) => {
   });
 });
 
-module.exports = getPublishers;
+module.exports = { getPublishers };
