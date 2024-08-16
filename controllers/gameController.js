@@ -1,6 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const db = require("../db/queries");
+const indexController = require("./indexController");
 
 const lengthErr = "must contain at least one character.";
 const selectionErr = "must be selected.";
@@ -26,73 +27,6 @@ const validateGame = [
     .withMessage(`Game Release Date ${selectionErr}`),
 ];
 
-const navLinks = [
-  {
-    href: "/",
-    text: "Homepage",
-  },
-  {
-    href: "/games",
-    text: "All Games",
-  },
-  {
-    href: "/publishers",
-    text: "All Publishers",
-  },
-  {
-    href: "/developers",
-    text: "All Developers",
-  },
-  {
-    href: "/platforms",
-    text: "All Platforms",
-  },
-  {
-    href: "/genres",
-    text: "All Genres",
-  },
-  {
-    href: "/create-game",
-    text: "Create Game",
-  },
-  {
-    href: "/create-publisher",
-    text: "Create Publisher",
-  },
-  {
-    href: "/create-developer",
-    text: "Create Developer",
-  },
-  {
-    href: "/create-platform",
-    text: "Create Platform",
-  },
-  {
-    href: "/create-genre",
-    text: "Create Genre",
-  },
-];
-
-const getIndex = asyncHandler(async (req, res, next) => {
-  const [games, publishers, developers, platforms, genres] = await Promise.all([
-    db.countGames(),
-    db.countPublishers(),
-    db.countDevelopers(),
-    db.countPlatforms(),
-    db.countGenres(),
-  ]);
-
-  res.render("index", {
-    title: "Homepage",
-    navLinks: navLinks,
-    games: games,
-    publishers: publishers,
-    developers: developers,
-    platforms: platforms,
-    genres: genres,
-  });
-});
-
 const getGameDetail = asyncHandler(async (req, res, next) => {
   const [game, platforms] = await Promise.all([
     db.getGameDetails(req.params.id),
@@ -111,7 +45,7 @@ const getGameDetail = asyncHandler(async (req, res, next) => {
     title: "Game Detail",
     game: game,
     platforms: platforms,
-    navLinks: navLinks,
+    navLinks: indexController.navLinks,
   });
 });
 
@@ -125,7 +59,7 @@ const getCreateGameForm = asyncHandler(async (req, res, next) => {
 
   res.render("game_form", {
     title: "Add new Game",
-    navLinks: navLinks,
+    navLinks: indexController.navLinks,
     publishers: publishers,
     developers: developers,
     platforms: platforms,
@@ -147,7 +81,7 @@ const postCreateGameForm = [
 
       return res.status(400).render("game_form", {
         title: "Add new Game",
-        navLinks: navLinks,
+        navLinks: indexController.navLinks,
         publishers: publishers,
         developers: developers,
         platforms: platforms,
@@ -173,7 +107,6 @@ const postCreateGameForm = [
 ];
 
 module.exports = {
-  getIndex,
   getCreateGameForm,
   getGameDetail,
   postCreateGameForm,
