@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title><%=title %></title>
+  </head>
+  <body>
+    <%- include('navbar', {navLinks: navLinks}) %>
+    <main>
+      <section class="publishers-section">
+        <% if (publishers.length > 0) { %> 
+            <ul>
+            <% publishers.forEach((publisher) =>  { %>
+            <li><%= publisher.name %></li>
+      
+        <% }) %> <% } else { %>
+        <div class="text-container">
+          <p>There are no publishers!</p>
+        </div>
+          <%} %>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
