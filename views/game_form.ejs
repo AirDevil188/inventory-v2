@@ -33,13 +33,14 @@
           </select>
         </div>
         <div class="form-group">
+          <label for="platforms">Platforms: </label>
           <% if (platforms.length > 0) { %> <% platforms.forEach((platform) => {
           %>
 
           <input
             type="checkbox"
             id="<%= platform.id %>"
-            name="platform"
+            name="platforms"
             value="<%= platform.id %>"
           />
           <label for="<%= platform.id %>"><%=platform.name %></label> <% }) %>
