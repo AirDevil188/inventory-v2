@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title><%=title %></title>
+  </head>
+  <body>
+    <%- include('navbar', {navLinks: navLinks}) %>
+    <main>
+      <section class="games-section">
+        <% if (games.length > 0) { %> 
+            <ul>
+            <% games.forEach((developer) =>  { %>
+            <li><%= game.title %></li>
+      
+        <% }) %> <% } else { %>
+        <div class="text-container">
+          <p>There are no games!</p>
+        </div>
+          <%} %>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
