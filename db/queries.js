@@ -77,11 +77,6 @@ async function getGamePlatform(id) {
   return rows;
 }
 
-async function getGenres() {
-  const { rows } = await pool.query("SELECT * FROM genre");
-  return rows;
-}
-
 async function insertGame(
   title,
   publisher,
