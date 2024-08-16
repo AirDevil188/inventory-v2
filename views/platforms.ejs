@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title><%=title %></title>
+  </head>
+  <body>
+    <%- include('navbar', {navLinks: navLinks}) %>
+    <main>
+      <section class="platforms-section">
+        <% if (platforms.length > 0) { %> 
+            <ul>
+            <% platforms.forEach((platform) =>  { %>
+            <li><%= platform.name %></li>
+      
+        <% }) %> <% } else { %>
+        <div class="text-container">
+          <p>There are no platforms!</p>
+        </div>
+          <%} %>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
