@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title><%=title %></title>
+  </head>
+  <body>
+    <%- include('navbar', {navLinks: navLinks}) %>
+    <main>
+      <section class="developers-section">
+        <% if (developers.length > 0) { %> 
+            <ul>
+            <% developers.forEach((developer) =>  { %>
+            <li><%= developer.name %></li>
+      
+        <% }) %> <% } else { %>
+        <div class="text-container">
+          <p>There are no developers!</p>
+        </div>
+          <%} %>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
