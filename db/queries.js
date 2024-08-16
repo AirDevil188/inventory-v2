@@ -26,7 +26,7 @@ async function countGenres() {
 }
 
 async function getGames() {
-  const { rows } = await pool.query("SELECT name FROM game");
+  const { rows } = await pool.query("SELECT title FROM game");
   return rows;
 }
 
