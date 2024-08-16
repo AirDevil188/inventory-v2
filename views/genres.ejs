@@ -1,0 +1,23 @@
+<html>
+  <head>
+    <title><%=title %></title>
+  </head>
+  <body>
+    <%- include('navbar', {navLinks: navLinks}) %>
+    <main>
+      <section class="genres-section">
+        <% if (genres.length > 0) { %> 
+            <ul>
+            <% genres.forEach((genre) =>  { %>
+            <li><%= genre.name %></li>
+      
+        <% }) %> <% } else { %>
+        <div class="text-container">
+          <p>There are no genres!</p>
+        </div>
+          <%} %>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
