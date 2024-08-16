@@ -25,6 +25,11 @@ async function countGenres() {
   return rows[0].count;
 }
 
+async function getGames() {
+  const { rows } = await pool.query("SELECT name FROM game");
+  return rows;
+}
+
 async function getPublishers() {
   const { rows } = await pool.query("SELECT  name FROM publisher");
   return rows;
@@ -125,6 +130,7 @@ module.exports = {
   countDevelopers,
   countPlatforms,
   countGenres,
+  getGames,
   getPublishers,
   getDevelopers,
   getPlatforms,
