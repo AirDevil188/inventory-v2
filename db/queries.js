@@ -26,17 +26,22 @@ async function countGenres() {
 }
 
 async function getPublishers() {
-  const { rows } = await pool.query("SELECT id, name FROM publisher");
+  const { rows } = await pool.query("SELECT  name FROM publisher");
   return rows;
 }
 
 async function getDevelopers() {
-  const { rows } = await pool.query("SELECT id, name FROM developer");
+  const { rows } = await pool.query("SELECT name FROM developer");
   return rows;
 }
 
 async function getPlatforms() {
-  const { rows } = await pool.query("SELECT * FROM platform");
+  const { rows } = await pool.query("SELECT name FROM platform");
+  return rows;
+}
+
+async function getGenres() {
+  const { rows } = await pool.query("SELECT name FROM genre");
   return rows;
 }
 
