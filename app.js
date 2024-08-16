@@ -6,13 +6,17 @@ dotenv.config();
 
 const indexRouter = require("./routes/indexRouter");
 const gameRouter = require("./routes/gameRouter");
+const genreRouter = require("./routes/genreRouter");
+
 const PORT = process.env.PORT;
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 app.use(express.urlencoded({ extended: true }));
+
 app.use("/", indexRouter);
 app.use("/game", gameRouter);
+app.use("/genres", genreRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);
