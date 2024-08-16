@@ -172,19 +172,8 @@ const postCreateGameForm = [
   }),
 ];
 
-const getDevelopers = asyncHandler(async (req, res, next) => {
-  const developers = await db.getDevelopers();
-
-  res.render("developers", {
-    title: "All Developers",
-    developers: developers,
-    navLinks: navLinks,
-  });
-});
-
 module.exports = {
   getIndex,
-  getDevelopers,
   getCreateGameForm,
   getGameDetail,
   postCreateGameForm,
