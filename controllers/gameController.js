@@ -27,6 +27,16 @@ const validateGame = [
     .withMessage(`Game Release Date ${selectionErr}`),
 ];
 
+const getGames = asyncHandler(async (req, res, next) => {
+  const games = await db.getGames();
+
+  res.render("games", {
+    title: "All Games",
+    navLinks: indexController.navLinks,
+    games: games,
+  });
+});
+
 const getGameDetail = asyncHandler(async (req, res, next) => {
   const [game, platforms] = await Promise.all([
     db.getGameDetails(req.params.id),
@@ -107,6 +117,7 @@ const postCreateGameForm = [
 ];
 
 module.exports = {
+  getGames,
   getCreateGameForm,
   getGameDetail,
   postCreateGameForm,
