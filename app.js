@@ -6,8 +6,9 @@ dotenv.config();
 
 const indexRouter = require("./routes/indexRouter");
 const gameRouter = require("./routes/gameRouter");
-const genreRouter = require("./routes/genreRouter");
 const developerRouter = require("./routes/developerRouter");
+const platformRouter = require("./routes/platformRouter");
+const genreRouter = require("./routes/genreRouter");
 
 const PORT = process.env.PORT;
 
@@ -19,6 +20,7 @@ app.use("/", indexRouter);
 app.use("/game", gameRouter);
 app.use("/developers", developerRouter);
 app.use("/genres", genreRouter);
+app.use("/platforms", platformRouter);
 
 app.use((err, req, res, next) => {
   console.error(err);
