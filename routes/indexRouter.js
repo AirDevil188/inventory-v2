@@ -1,9 +1,12 @@
 const { Router } = require("express");
 
 const indexRouter = Router();
-const gameController = require("../controllers/gameController");
 
-indexRouter.get("/", gameController.getIndex);
+const indexController = require("../controllers/indexController");
+const gameController = require("../controllers/gameController");
+const genreController = require("../controllers/genresController");
+
+indexRouter.get("/", indexController.getIndex);
 
 indexRouter.get("/create-game", gameController.getCreateGameForm);
 
@@ -11,6 +14,6 @@ indexRouter.post("/create-game", gameController.postCreateGameForm);
 
 indexRouter.get("/game/:id", gameController.getGameDetail);
 
-indexRouter.get("/developers", gameController.getDevelopers);
+indexRouter.get("/genres", genreController.getGenres);
 
 module.exports = indexRouter;
