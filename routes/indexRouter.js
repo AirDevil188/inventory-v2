@@ -11,4 +11,6 @@ indexRouter.post("/create-game", gameController.postCreateGameForm);
 
 indexRouter.get("/game/:id", gameController.getGameDetail);
 
+indexRouter.get("/developers", gameController.getDevelopers);
+
 module.exports = indexRouter;
