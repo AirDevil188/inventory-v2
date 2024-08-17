@@ -132,6 +132,14 @@ async function insertGenre(name) {
   }
 }
 
+async function insertPlatform(name) {
+  try {
+    await pool.query("INSERT INTO platform(name) VALUES ($1)", [name]);
+  } catch (e) {
+    return console.log(e);
+  }
+}
+
 module.exports = {
   countGames,
   countPublishers,
@@ -147,4 +155,5 @@ module.exports = {
   getGameDetails,
   insertGame,
   insertGenre,
+  insertPlatform,
 };
