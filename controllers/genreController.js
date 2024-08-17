@@ -4,7 +4,10 @@ const db = require("../db/queries");
 const indexController = require("./indexController");
 
 const lengthErr = "must contain at least one character.";
-const selectionErr = "must be selected.";
+
+const validateGenre = [
+  body("name").trim().isLength({ min: 1 }).withMessage(`Genre ${lengthErr}`),
+];
 
 const getGenres = asyncHandler(async (req, res, next) => {
   const genres = await db.getGenres();
@@ -22,7 +25,28 @@ const createGenreFormGet = asyncHandler(async (req, res, next) => {
   });
 });
 
+const createGenreFormPost = [
+  validateGenre,
+  asyncHandler(async (req, res, next) => {
+    const errors = validationResult(req);
+    console.log(errors);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).render("genre_form", {
+        title: "Create Genre",
+        errors: errors.array(),
+      });
+    }
+
+    const { name } = req.body;
+
+    await db.insertGenre(name);
+    res.redirect("/");
+  }),
+];
+
 module.exports = {
   getGenres,
   createGenreFormGet,
+  createGenreFormPost,
 };
