@@ -26,27 +26,27 @@ async function countGenres() {
 }
 
 async function getGames() {
-  const { rows } = await pool.query("SELECT title FROM game");
+  const { rows } = await pool.query("SELECT title, id FROM game");
   return rows;
 }
 
 async function getPublishers() {
-  const { rows } = await pool.query("SELECT  name FROM publisher");
+  const { rows } = await pool.query("SELECT  name, id FROM publisher");
   return rows;
 }
 
 async function getDevelopers() {
-  const { rows } = await pool.query("SELECT name FROM developer");
+  const { rows } = await pool.query("SELECT name, id FROM developer");
   return rows;
 }
 
 async function getPlatforms() {
-  const { rows } = await pool.query("SELECT name FROM platform");
+  const { rows } = await pool.query("SELECT name, id FROM platform");
   return rows;
 }
 
 async function getGenres() {
-  const { rows } = await pool.query("SELECT name FROM genre");
+  const { rows } = await pool.query("SELECT name, id FROM genre");
   return rows;
 }
 
