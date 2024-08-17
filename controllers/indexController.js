@@ -27,23 +27,23 @@ const navLinks = [
     text: "All Genres",
   },
   {
-    href: "/create-game",
+    href: "games/create-game",
     text: "Create Game",
   },
   {
-    href: "/create-publisher",
+    href: "publishers/create-publisher",
     text: "Create Publisher",
   },
   {
-    href: "/create-developer",
+    href: "developers/create-developer",
     text: "Create Developer",
   },
   {
-    href: "/create-platform",
+    href: "platforms/create-platform",
     text: "Create Platform",
   },
   {
-    href: "/create-genre",
+    href: "genres/create-genre",
     text: "Create Genre",
   },
 ];
