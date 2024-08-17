@@ -1,6 +1,7 @@
 <html>
     <head><title><%= title %></title></head>
     <body>
+        <%- include('navbar', {navLinks: navLinks}) %>
         <main>
             <section class="title-section">
                 <div class="title-container">
@@ -16,6 +17,7 @@
                     <button type="submit">Submit</button>
                 </form>
             </section>
+            <%- include("errors") %>
         </main>
     </body>
 </html>
