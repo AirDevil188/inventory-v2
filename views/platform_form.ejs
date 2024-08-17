@@ -1,0 +1,23 @@
+<html>
+    <head><title><%= title %></title></head>
+    <body>
+        <%- include('navbar', {navLinks: navLinks}) %>
+        <main>
+            <section class="title-section">
+                <div class="title-container">
+                    <h3><%= title %></h3>
+                </div>
+            </section>
+            <section class="form-section">
+                <form action="/platforms/create-platform" method="POST" >
+                    <div class="form-group">
+                        <label for="name">Name: </label>
+                        <input type="text" id="name" name="name">
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>
+            </section>
+            <%- include("errors") %>
+        </main>
+    </body>
+</html>
