@@ -1,0 +1,21 @@
+<html>
+    <head><title><%= title %></title></head>
+    <body>
+        <main>
+            <section class="title-section">
+                <div class="title-container">
+                    <h3><%= title %></h3>
+                </div>
+            </section>
+            <section class="form-section">
+                <form action="/create-genre" method="GET" >
+                    <div class="form-group">
+                        <label for="name">Name: </label>
+                        <input type="text" id="name" name="name">
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>
+            </section>
+        </main>
+    </body>
+</html>
