@@ -16,6 +16,17 @@ const getDevelopers = asyncHandler(async (req, res, next) => {
   });
 });
 
+const getDeveloperCreateForm = asyncHandler(async (req, res, next) => {
+  const publishers = await db.getPublishers();
+
+  res.render("developer_form", {
+    title: "Create Developer",
+    navLinks: indexController.navLinks,
+    publishers: publishers,
+  });
+});
+
 module.exports = {
   getDevelopers,
+  getDeveloperCreateForm,
 };
