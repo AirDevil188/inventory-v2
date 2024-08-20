@@ -13,4 +13,11 @@ const getPublishers = asyncHandler(async (req, res, next) => {
   });
 });
 
-module.exports = { getPublishers };
+const getCreatePublisherGet = asyncHandler(async (req, res, next) => {
+  res.render("publisher_form", {
+    title: "Create Publisher",
+    navLinks: indexController.navLinks,
+  });
+});
+
+module.exports = { getPublishers, getCreatePublisherGet };
