@@ -140,7 +140,18 @@ async function insertGamePlatform(gameid, platforms) {
 
 async function insertGenre(name) {
   try {
-    await pool.query("INSERT INTO genre(name) VALUES ($1)", [name]);
+    await pool.query(`
+      CREATE OR REPLACE FUNCTION insert_genre(name VARCHAR(255)) RETURNS VOID
+        LANGUAGE plpgsql AS
+          $$BEGIN
+            INSERT INTO genre(name) VALUES ($1);
+              EXCEPTION
+                WHEN unique_violation THEN
+                  RAISE EXCEPTION 'Genre already exists!';
+          END; $$;
+      `);
+
+    await pool.query(`SELECT insert_genre($1)`, [name]);
   } catch (e) {
     return console.log(e);
   }
