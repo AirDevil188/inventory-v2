@@ -125,6 +125,29 @@ EXCEPTION
   insertGamePlatform(selectedGame.rows[0].id, platforms);
 }
 
+async function insertPublisher(name, location, founded, closed) {
+  try {
+    await pool.query(`
+    CREATE OR REPLACE FUNCTION insert_publisher(name VARCHAR(255), location VARCHAR(255), founded DATE, closed BOOLEAN) RETURNS VOID
+      LANGUAGE plpgsql AS
+        $$BEGIN
+          INSERT INTO publisher(name, location, founded, closed) VALUES ($1, $2, $3, $4);
+            EXCEPTION
+              WHEN unique_violation THEN
+                RAISE EXCEPTION 'Publisher already exists!';
+        END; $$;
+    `);
+  } catch (e) {
+    console.log(e);
+  }
+  await pool.query("SELECT insert_publisher($1, $2, $3, $4)", [
+    name,
+    location,
+    founded,
+    closed,
+  ]);
+}
+
 async function insertGamePlatform(gameid, platforms) {
   for (let i = 0; i < platforms.length; i++) {
     try {
@@ -179,6 +202,7 @@ module.exports = {
   getGamePlatform,
   getGameDetails,
   insertGame,
+  insertPublisher,
   insertGenre,
   insertPlatform,
 };
