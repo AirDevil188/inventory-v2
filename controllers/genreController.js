@@ -22,6 +22,7 @@ const getGenres = asyncHandler(async (req, res, next) => {
 const createGenreFormGet = asyncHandler(async (req, res, next) => {
   res.render("genre_form", {
     title: "Create Genre",
+    navLinks: indexController.navLinks,
   });
 });
 
