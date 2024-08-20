@@ -6,7 +6,11 @@ publisherRouter.get("/", publisherController.getPublishers);
 
 publisherRouter.get(
   "/create-publisher",
-  publisherController.getCreatePublisherGet
+  publisherController.getCreatePublisherForm
 );
 
+publisherRouter.post(
+  "/create-publisher",
+  publisherController.postCreatePublisherForm
+);
 module.exports = publisherRouter;
