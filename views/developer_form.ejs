@@ -19,6 +19,7 @@
                 <div class="form-group">
                     <label for="publisher">Publisher: </label>
                     <select name="publisher" id="publisher">
+                        <option  value="empty" id="empty">-- Select publisher --</option>
                         <% publishers.forEach((publisher) => { %>
                             <option value="<%= publisher.id %>" id="<%= publisher.id %>"><%= publisher.name %></option>
                       <%  }) %>
