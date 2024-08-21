@@ -148,6 +148,30 @@ async function insertPublisher(name, location, founded, closed) {
   ]);
 }
 
+async function insertDeveloper(name, location, founded, closed, publisher) {
+  try {
+    await pool.query(`
+      CREATE OR REPLACE FUNCTION insert_developer(name VARCHAR(255), location VARCHAR(255), founded DATE, closed BOOLEAN, publisher INTEGER) RETURNS VOID
+        LANGUAGE plpgsql AS
+          $$BEGIN
+            INSERT INTO developer(name, location, founded, closed, NULLIF(publisher, 'empty')) VALUES ($1, $2, $3, $4, $5);
+            EXCEPTION
+                WHEN unique_violation THEN
+                  RAISE EXCEPTION 'Developer already exists!';
+          END; $$;
+      `);
+  } catch (e) {
+    console.log(e);
+  }
+
+  await pool.query("SELECT insert_developer($1, $2, $3, $4, $5);", [
+    name,
+    location,
+    founded,
+    closed,
+    publisher,
+  ]);
+}
 async function insertGamePlatform(gameid, platforms) {
   for (let i = 0; i < platforms.length; i++) {
     try {
@@ -203,6 +227,7 @@ module.exports = {
   getGameDetails,
   insertGame,
   insertPublisher,
+  insertDeveloper,
   insertGenre,
   insertPlatform,
 };
