@@ -11,4 +11,9 @@ developerRouter.get(
   developerController.getDeveloperCreateForm
 );
 
+developerRouter.post(
+  "/create-developer",
+  developerController.postDeveloperCreateForm
+);
+
 module.exports = developerRouter;
