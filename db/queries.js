@@ -93,10 +93,10 @@ async function insertGame(
   try {
     await pool.query(
       `
-CREATE OR REPLACE FUNCTION insert_game(title VARCHAR(255), publisher INT, developer INT, genre INT, date_of_release DATE) RETURNS void
+CREATE OR REPLACE FUNCTION insert_game(title VARCHAR(255), publisher TEXT, developer INT, genre INT, date_of_release DATE) RETURNS void
    LANGUAGE plpgsql AS
 $$BEGIN
-    INSERT INTO game(title, publisher, developer, genre, date_of_release) VALUES($1, $2, $3, $4, $5);
+    INSERT INTO game(title, publisher, developer, genre, date_of_release) VALUES($1, CAST (NULLIF($2, '') AS INT), $3, $4, $5);
 EXCEPTION
    WHEN unique_violation THEN
       RAISE EXCEPTION 'there is already a game with that title';
