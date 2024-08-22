@@ -58,7 +58,7 @@ async function getGameDetails(id) {
             developer.name as game_developer, genre.name as game_genre,
             game.date_of_release as game_release_date, publisher.name as game_publisher
             from game
-            INNER JOIN publisher
+            LEFT JOIN publisher
             ON publisher.id = game.publisher
             INNER JOIN developer
             ON developer.id =  game.developer
