@@ -49,8 +49,25 @@ const postCreatePublisherForm = [
   }),
 ];
 
+const getPublisherDetails = asyncHandler(async (req, res, next) => {
+  const publisher = await db.getPublisherDetails(req.params.id);
+
+  if (!publisher) {
+    const err = new Error("Publisher not found!");
+    err.status = 404;
+    return next(err);
+  }
+  console.log(publisher);
+
+  res.render("publisher_detail", {
+    title: "Publisher Details",
+    publisher: publisher,
+  });
+});
+
 module.exports = {
   getPublishers,
+  getPublisherDetails,
   getCreatePublisherForm,
   postCreatePublisherForm,
 };
