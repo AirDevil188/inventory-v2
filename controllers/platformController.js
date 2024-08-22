@@ -1,7 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const db = require("../db/queries");
-const indexController = require("../controllers/indexController");
 
 const lengthErr = "must contain at least one character.";
 
@@ -14,7 +13,6 @@ const getPlatforms = asyncHandler(async (req, res, next) => {
 
   res.render("platforms", {
     title: "All Platforms",
-    navLinks: indexController.navLinks,
     platforms: platforms,
   });
 });
@@ -22,7 +20,6 @@ const getPlatforms = asyncHandler(async (req, res, next) => {
 const getCreatePlatformForm = asyncHandler(async (req, res, next) => {
   res.render("platform_form", {
     title: "Create Platform",
-    navLinks: indexController.navLinks,
   });
 });
 
@@ -35,7 +32,7 @@ const postCreatePlatformForm = [
     if (!errors.isEmpty()) {
       return res.status(400).render("platform_form", {
         title: "Create Platform",
-        navLinks: indexController.navLinks,
+
         errors: errors.array(),
       });
     }

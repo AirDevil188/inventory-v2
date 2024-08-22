@@ -1,7 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const db = require("../db/queries");
-const indexController = require("./indexController");
 
 const lengthErr = "must contain at least one character.";
 
@@ -14,7 +13,6 @@ const getGenres = asyncHandler(async (req, res, next) => {
 
   res.render("genres", {
     title: "All Genres",
-    navLinks: indexController.navLinks,
     genres: genres,
   });
 });
@@ -22,7 +20,6 @@ const getGenres = asyncHandler(async (req, res, next) => {
 const createGenreFormGet = asyncHandler(async (req, res, next) => {
   res.render("genre_form", {
     title: "Create Genre",
-    navLinks: indexController.navLinks,
   });
 });
 

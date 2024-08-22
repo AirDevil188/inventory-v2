@@ -1,7 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const { body, validationResult } = require("express-validator");
 const db = require("../db/queries");
-const indexController = require("./indexController");
 
 const lengthErr = "must contain at least one character.";
 const selectionErr = "must be selected.";
@@ -24,7 +23,6 @@ const getDevelopers = asyncHandler(async (req, res, next) => {
 
   res.render("developers", {
     title: "All Developers",
-    navLinks: indexController.navLinks,
     developers: developers,
   });
 });
@@ -34,7 +32,6 @@ const getDeveloperCreateForm = asyncHandler(async (req, res, next) => {
 
   res.render("developer_form", {
     title: "Create Developer",
-    navLinks: indexController.navLinks,
     publishers: publishers,
   });
 });
@@ -48,7 +45,6 @@ const postDeveloperCreateForm = [
     if (!errors.isEmpty()) {
       return res.status(400).render("developer_form", {
         title: "Create Developer",
-        navLinks: indexController.navLinks,
         publishers: publishers,
         errors: errors.array(),
       });
