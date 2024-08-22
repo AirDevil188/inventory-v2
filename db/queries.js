@@ -140,12 +140,30 @@ async function insertPublisher(name, location, founded, closed) {
   } catch (e) {
     console.log(e);
   }
+
   await pool.query("SELECT insert_publisher($1, $2, $3, $4)", [
     name,
     location,
     founded,
     closed,
   ]);
+}
+
+async function getPublisherDetails(id) {
+  try {
+    const { rows } = await pool.query(`
+      SELECT 
+        name as publisher_name,
+        location as publisher_location,
+        founded as publisher_date_of_foundation,
+        closed as publisher_close_status
+          FROM publisher
+            WHERE id = ${id};
+      `);
+    return rows[0];
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 async function insertDeveloper(name, location, founded, closed, publisher) {
@@ -220,6 +238,7 @@ module.exports = {
   countGenres,
   getGames,
   getPublishers,
+  getPublisherDetails,
   getDevelopers,
   getPlatforms,
   getGenres,
