@@ -13,4 +13,6 @@ publisherRouter.post(
   "/create-publisher",
   publisherController.postCreatePublisherForm
 );
+
+publisherRouter.get("/publisher/:id", publisherController.getPublisherDetails);
 module.exports = publisherRouter;
