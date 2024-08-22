@@ -32,7 +32,6 @@ const getGames = asyncHandler(async (req, res, next) => {
 
   res.render("games", {
     title: "All Games",
-    navLinks: indexController.navLinks,
     games: games,
   });
 });
@@ -42,6 +41,7 @@ const getGameDetail = asyncHandler(async (req, res, next) => {
     db.getGameDetails(req.params.id),
     db.getGamePlatform(req.params.id),
   ]);
+  console.log(game);
 
   if (!game) {
     const err = new Error("Game not found!");
@@ -55,7 +55,6 @@ const getGameDetail = asyncHandler(async (req, res, next) => {
     title: "Game Detail",
     game: game,
     platforms: platforms,
-    navLinks: indexController.navLinks,
   });
 });
 
@@ -69,7 +68,6 @@ const getCreateGameForm = asyncHandler(async (req, res, next) => {
 
   res.render("game_form", {
     title: "Add new Game",
-    navLinks: indexController.navLinks,
     publishers: publishers,
     developers: developers,
     platforms: platforms,
@@ -91,7 +89,6 @@ const postCreateGameForm = [
 
       return res.status(400).render("game_form", {
         title: "Add new Game",
-        navLinks: indexController.navLinks,
         publishers: publishers,
         developers: developers,
         platforms: platforms,
