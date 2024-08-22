@@ -22,5 +22,4 @@ const getIndex = asyncHandler(async (req, res, next) => {
 
 module.exports = {
   getIndex,
-  navLinks,
 };
