@@ -12,10 +12,11 @@ const validateDeveloper = [
     .trim()
     .isLength({ min: 1 })
     .withMessage(`Location ${lengthErr}`),
-  body("founded")
+  body("founded").trim().notEmpty().withMessage(`Date ${selectionErr}`),
+  body("closed")
     .trim()
-    .notEmpty({ min: 1 })
-    .withMessage(`Date ${selectionErr}`),
+    .notEmpty()
+    .withMessage(`Status of developer ${selectionErr}`),
 ];
 
 const getDevelopers = asyncHandler(async (req, res, next) => {
@@ -54,7 +55,7 @@ const postDeveloperCreateForm = [
     }
 
     const { name, location, founded, closed, publisher } = req.body;
-    console.log(publisher);
+    console.log(closed);
     await db.insertDeveloper(name, location, founded, closed, publisher);
 
     res.redirect("/");
