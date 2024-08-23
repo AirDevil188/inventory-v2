@@ -16,4 +16,6 @@ developerRouter.post(
   developerController.postDeveloperCreateForm
 );
 
+developerRouter.get("/developer/:id", developerController.getDeveloperDetails);
+
 module.exports = developerRouter;
