@@ -1,0 +1,31 @@
+<html>
+  <head>
+    <title><%= title %></title>
+    <body>
+      <%- include('navbar') %>
+      <main>
+        <% if (developer) { %>
+            <section class="detail-section">
+                <div class="title-container">
+                    <h3><%= developer.developer_name %></h3>
+                </div>
+                <div class="location-container">
+                    <span><%= developer.developer_location%></span>
+                </div>
+                <div class="date-foundation-container">
+                    <span><%= developer.developer_date_of_foundation %></span>
+                </div>
+                <% if (developer.developer_close_status) { %>
+                    <div class="status-container">
+                    <span>Developer closed</span>
+                </div>
+            <% } %>
+            </section>
+            <%  } else { %>
+            
+              <p>Developer Not Found!</p>
+              <% }%>
+      </main>
+    </body>
+  </head>
+</html>
