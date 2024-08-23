@@ -27,6 +27,22 @@ const getDevelopers = asyncHandler(async (req, res, next) => {
   });
 });
 
+const getDeveloperDetails = asyncHandler(async (req, res, next) => {
+  const developer = await db.getDeveloperDetails(req.params.id);
+  console.log(developer);
+
+  if (!developer) {
+    const err = new Error("Developer not found!");
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render("developer_detail", {
+    title: "Developer detail",
+    developer: developer,
+  });
+});
+
 const getDeveloperCreateForm = asyncHandler(async (req, res, next) => {
   const publishers = await db.getPublishers();
 
@@ -59,6 +75,7 @@ const postDeveloperCreateForm = [
 ];
 module.exports = {
   getDevelopers,
+  getDeveloperDetails,
   getDeveloperCreateForm,
   postDeveloperCreateForm,
 };
