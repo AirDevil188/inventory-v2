@@ -17,6 +17,25 @@ const getPlatforms = asyncHandler(async (req, res, next) => {
   });
 });
 
+const getPlatformDetails = asyncHandler(async (req, res, next) => {
+  const platform = await db.getPlatformDetails(req.params.id);
+  const games = await db.getPlatformGames(req.params.id);
+
+  console.log(games);
+
+  if (!platform) {
+    const err = new Error("Platform not found!");
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render("platform_detail", {
+    title: "Platform Details",
+    platform: platform,
+    games: games,
+  });
+});
+
 const getCreatePlatformForm = asyncHandler(async (req, res, next) => {
   res.render("platform_form", {
     title: "Create Platform",
@@ -45,6 +64,7 @@ const postCreatePlatformForm = [
 ];
 module.exports = {
   getPlatforms,
+  getPlatformDetails,
   getCreatePlatformForm,
   postCreatePlatformForm,
 };
