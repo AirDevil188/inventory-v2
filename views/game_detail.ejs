@@ -5,16 +5,16 @@
       <%- include('navbar') %>
       <main>
         <% if (game) { %>
-          <section class="game-detail-section">
-            <div class="game-title">
+          <section class="detail-section">
+            <div class="title-container">
               <h3><%= game.game_title %></h3>
             </div>
-            <div class="game-publisher">
+            <div class="publisher-container">
               <span><%= game.game_publisher %></span>
             </div>
-            <div class="game-developer">
+            <div class="developer-container">
               <span><%= game.game_developer %></span>
-              <div class="game-platform">
+              <div class="platform-container">
                 <% platforms.forEach((platform) => { %>
                   <span><%= platform.platform_name %></span>
                 <% }) %>
@@ -23,14 +23,13 @@
             <%  } else { %>
               <p>Game Not Found!</p>
               <% }%>
-              <div class="game-genres">
+              <div class="genre-container">
                 <span><%= game.game_genre %></span>
               </div>
-              <div class="game-release-date">
+              <div class="release-date-container"">
                 <span> <%= game.game_release_date %></span>
               </div>
             </section>
-       
       </main>
     </body>
   </head>
