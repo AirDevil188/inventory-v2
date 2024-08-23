@@ -9,6 +9,11 @@
                 <div class="title-container">
                     <h3><%= developer.developer_name %></h3>
                 </div>
+               <% if (developer.developer_publisher) { %>
+                <div class="publisher-container">
+                    <span><%= developer.developer_publisher %></span>
+                </div>
+               <% } %>
                 <div class="location-container">
                     <span><%= developer.developer_location%></span>
                 </div>
