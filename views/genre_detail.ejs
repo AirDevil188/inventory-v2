@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <title><%= title %></title>
+    <body>
+      <%- include('navbar') %>
+      <main>
+        <% if (genre) { %>
+            <section class="detail-section">
+                <div class="title-container">
+                    <h3><%= genre.genre_name %></h3>
+                </div>
+               <% if (games) { %>
+                <div class="items-container">
+                    <ul>
+                     <% games.forEach(game => { %>
+                        <li><%= game.title %></li>
+                    <% }) %>
+                   </ul>
+                </div>
+               <% } %>
+            </section>
+            <%  } else { %>
+            
+              <p>Genre Not Found!</p>
+              <% }%>
+      </main>
+    </body>
+  </head>
+</html>
