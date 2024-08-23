@@ -16,4 +16,6 @@ platformRouter.post(
   platformController.postCreatePlatformForm
 );
 
+platformRouter.get("/platform/:id", platformController.getPlatformDetails);
+
 module.exports = platformRouter;
