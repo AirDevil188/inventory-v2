@@ -10,4 +10,6 @@ genreRouter.get("/create-genre", genreController.createGenreFormGet);
 
 genreRouter.post("/create-genre", genreController.createGenreFormPost);
 
+genreRouter.get("/genre/:id", genreController.getGenreDetails);
+
 module.exports = genreRouter;
