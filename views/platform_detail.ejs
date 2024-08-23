@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <title><%= title %></title>
+    <body>
+      <%- include('navbar') %>
+      <main>
+        <% if (platform) { %>
+            <section class="detail-section">
+                <div class="title-container">
+                    <h3><%= platform.platform_name %></h3>
+                </div>
+               <% if (games) { %>
+                <div class="items-container">
+                    <ul>
+                     <% games.forEach(game => { %>
+                        <li><%= game.game_title %></li>
+                    <% }) %>
+                   </ul>
+                </div>
+               <% } %>
+            </section>
+            <%  } else { %>
+            
+              <p>Platform Not Found!</p>
+              <% }%>
+      </main>
+    </body>
+  </head>
+</html>
