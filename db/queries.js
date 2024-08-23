@@ -178,10 +178,38 @@ async function insertDeveloper(name, location, founded, closed, publisher) {
                   RAISE EXCEPTION 'Developer already exists!';
           END; $$;
       `);
+
+    await pool.query("SELECT insert_developer($1, $2, $3, $4, $5)", [
+      name,
+      location,
+      founded,
+      closed,
+      publisher,
+    ]);
   } catch (e) {
     console.log(e);
   }
+}
 
+async function getDeveloperDetails(id) {
+  try {
+    const { rows } = await pool.query(`
+        SELECT developer.name as developer_name,
+               developer.location as developer_location,
+               developer.founded as developer_date_of_foundation,
+               developer.closed as developer_status,
+               developer.publisher as developer_publisher
+                FROM developer
+                  LEFT JOIN publisher
+                    ON developer.publisher = publisher.id
+                      WHERE developer.id = ${id};
+
+        `);
+
+    return rows[0];
+  } catch (e) {
+    console.log(e);
+  }
   await pool.query("SELECT insert_developer($1, $2, $3, $4, $5)", [
     name,
     location,
@@ -240,6 +268,7 @@ module.exports = {
   getPublishers,
   getPublisherDetails,
   getDevelopers,
+  getDeveloperDetails,
   getPlatforms,
   getGenres,
   getGamePlatform,
