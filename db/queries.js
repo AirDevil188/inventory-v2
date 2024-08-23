@@ -45,6 +45,26 @@ async function getPlatforms() {
   return rows;
 }
 
+async function getPlatformDetails(id) {
+  const { rows } = await pool.query(`
+    SELECT platform.name as platform_name
+    FROM platform
+    WHERE platform.id = ${id}`);
+
+  return rows[0];
+}
+
+async function getPlatformGames(id) {
+  const { rows } = await pool.query(`
+    SELECT game.title as game_title
+    FROM game
+    INNER JOIN game_platform
+    ON game_id = game.id
+    WHERE  platform_id = ${id}; `);
+
+  return rows;
+}
+
 async function getGenres() {
   const { rows } = await pool.query("SELECT name, id FROM genre");
   return rows;
@@ -62,7 +82,7 @@ async function getGenreGames(id) {
   const { rows } = await pool.query(`
     SELECT title, game.genre
     FROM game
-      WHERE game.genre = 1;
+      WHERE game.genre = ${id};
     `);
   return rows;
 }
@@ -287,6 +307,8 @@ module.exports = {
   getDevelopers,
   getDeveloperDetails,
   getPlatforms,
+  getPlatformDetails,
+  getPlatformGames,
   getGenres,
   getGenreDetails,
   getGenreGames,
