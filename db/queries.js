@@ -287,9 +287,28 @@ async function insertGenre(name) {
   }
 }
 
+async function deleteGenre(id) {
+  try {
+    await pool.query(`
+  CREATE OR REPLACE FUNCTION delete_genre(number INTEGER) RETURNS VOID
+    LANGUAGE plpgsql AS
+      $$BEGIN
+        delete FROM genre WHERE id = $1;
+          EXCEPTION
+            WHEN foreign_key_violation THEN
+              RAISE EXCEPTION 'Genre contains games, before deleting this genre please delete games that are associated with it!';
+      END; $$;
+  `);
+
+    await pool.query(`SELECT delete_genre($1)`, [id]);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 async function insertPlatform(name) {
   try {
-    await pool.query("INSERT INTO platform(name) VALUES ($1)", [name]);
+    await pool.query("INSERT INTO platform($1)", [name]);
   } catch (e) {
     return console.log(e);
   }
@@ -318,5 +337,6 @@ module.exports = {
   insertPublisher,
   insertDeveloper,
   insertGenre,
+  deleteGenre,
   insertPlatform,
 };
