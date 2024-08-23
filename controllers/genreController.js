@@ -17,6 +17,23 @@ const getGenres = asyncHandler(async (req, res, next) => {
   });
 });
 
+const getGenreDetails = asyncHandler(async (req, res, next) => {
+  const genre = await db.getGenreDetails(req.params.id);
+  const games = await db.getGenreGames(req.params.id);
+
+  if (!genre) {
+    const err = new Error("Genre not found!");
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render("genre_detail", {
+    title: "Genre Detail",
+    genre: genre,
+    games: games,
+  });
+});
+
 const createGenreFormGet = asyncHandler(async (req, res, next) => {
   res.render("genre_form", {
     title: "Create Genre",
@@ -45,6 +62,7 @@ const createGenreFormPost = [
 
 module.exports = {
   getGenres,
+  getGenreDetails,
   createGenreFormGet,
   createGenreFormPost,
 };
