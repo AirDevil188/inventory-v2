@@ -50,6 +50,14 @@ async function getGenres() {
   return rows;
 }
 
+async function getGenreDetails(id) {
+  const { rows } = await pool.query(`SELECT name as genre_name
+    FROM genre
+    WHERE genre.id = ${id}`);
+
+  return rows[0];
+}
+
 async function getGameDetails(id) {
   try {
     const { rows } = await pool.query(`
@@ -271,6 +279,7 @@ module.exports = {
   getDeveloperDetails,
   getPlatforms,
   getGenres,
+  getGenreDetails,
   getGamePlatform,
   getGameDetails,
   insertGame,
