@@ -44,8 +44,6 @@ const createGenreFormPost = [
   validateGenre,
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
-    console.log(errors);
-
     if (!errors.isEmpty()) {
       return res.status(400).render("genre_form", {
         title: "Create Genre",
@@ -60,9 +58,44 @@ const createGenreFormPost = [
   }),
 ];
 
+const deleteGenreGet = asyncHandler(async (req, res, next) => {
+  const genre = await db.getGenreDetails(req.params.id);
+  const games = await db.getGenreGames(req.params.id);
+
+  if (!genre) {
+    const err = new Error("Genre not found!");
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render("genre_delete", {
+    title: "Delete",
+    genre: genre,
+    games: games,
+  });
+});
+
+const deleteGenrePost = asyncHandler(async (req, res, next) => {
+  const genre = await db.getGenreDetails(req.params.id);
+  const games = await db.getGenreGames(req.params.id);
+
+  if (games.length) {
+    res.render("genre_detail", {
+      title: "Delete Genre",
+      genre: genre,
+      games: games,
+    });
+    return;
+  }
+  await db.deleteGenre(req.params.id);
+  res.redirect("/");
+});
+
 module.exports = {
   getGenres,
   getGenreDetails,
   createGenreFormGet,
   createGenreFormPost,
+  deleteGenreGet,
+  deleteGenrePost,
 };
