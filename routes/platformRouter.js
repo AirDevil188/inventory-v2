@@ -23,4 +23,9 @@ platformRouter.get(
   platformController.getDeletePlatform
 );
 
+platformRouter.post(
+  "/platform/:id/delete",
+  platformController.postDeletePlatform
+);
+
 module.exports = platformRouter;
