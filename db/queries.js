@@ -71,7 +71,7 @@ async function getGenres() {
 }
 
 async function getGenreDetails(id) {
-  const { rows } = await pool.query(`SELECT name as genre_name
+  const { rows } = await pool.query(`SELECT name as genre_name, url
     FROM genre
     WHERE genre.id = ${id}`);
 
@@ -91,7 +91,8 @@ async function getGameDetails(id) {
   try {
     const { rows } = await pool.query(`
             SELECT 
-            game.title as game_title, game.publisher as game_publisher, 
+            game.title as game_title, game.publisher as game_publisher,
+            url,
             developer.name as game_developer, genre.name as game_genre,
             game.date_of_release as game_release_date, publisher.name as game_publisher
             from game
@@ -130,10 +131,10 @@ async function insertGame(
   try {
     await pool.query(
       `
-CREATE OR REPLACE FUNCTION insert_game(title VARCHAR(255), publisher TEXT, developer INT, genre INT, date_of_release DATE) RETURNS void
+CREATE OR REPLACE FUNCTION insert_game(title VARCHAR(255), publisher TEXT, developer INT, genre INT, date_of_release DATE, url TEXT) RETURNS void
    LANGUAGE plpgsql AS
 $$BEGIN
-    INSERT INTO game(title, publisher, developer, genre, date_of_release) VALUES($1, CAST (NULLIF($2, '') AS INT), $3, $4, $5);
+    INSERT INTO game(title, publisher, developer, genre, date_of_release, url) VALUES($1, CAST (NULLIF($2, '') AS INT), $3, $4, $5, $6);
 EXCEPTION
    WHEN unique_violation THEN
       RAISE EXCEPTION 'there is already a game with that title';
@@ -191,6 +192,7 @@ async function getPublisherDetails(id) {
     const { rows } = await pool.query(`
       SELECT 
         name as publisher_name,
+        url,
         location as publisher_location,
         founded as publisher_date_of_foundation,
         closed as publisher_close_status
@@ -232,6 +234,7 @@ async function getDeveloperDetails(id) {
   try {
     const { rows } = await pool.query(`
         SELECT developer.name as developer_name,
+               url,
                developer.location as developer_location,
                developer.founded as developer_date_of_foundation,
                developer.closed as developer_status,
@@ -300,7 +303,9 @@ async function deleteGenre(id) {
       END; $$;
   `);
 
-    await pool.query(`SELECT delete_genre($1)`, [id]);
+    const { rows } = await pool.query(`SELECT delete_genre($1)`, [id]);
+
+    return rows[0];
   } catch (e) {
     console.log(e);
   }
