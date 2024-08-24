@@ -19,9 +19,9 @@
                             </div>
                         <% }  else { %>
                             <h3><%= title +  " " + platform.platform_name %> platform </h3>
-                            <form action="<%=platform.url %>/delete/" method="post">
-                                <button type="submit">YES</button>
-                                <button><a href="<%=platform.url %>">Cancel</a></button>
+                            <form action="<%=platform.platform_url %>/delete/" method="post">
+                                <button type="submit">Delete</button>
+                                <button><a href="<%=platform.platform_url %>">Cancel</a></button>
                             </form>
 
                         <% }%>
