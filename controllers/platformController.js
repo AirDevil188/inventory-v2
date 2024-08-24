@@ -62,9 +62,30 @@ const postCreatePlatformForm = [
     res.redirect("/");
   }),
 ];
+
+const getDeletePlatform = asyncHandler(async (req, res, next) => {
+  const platform = await db.getPlatformDetails(req.params.id);
+  const games = await db.getPlatformGames(req.params.id);
+
+  console.log(games);
+
+  if (!platform) {
+    const err = "Platform not found!";
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render("platform_delete", {
+    title: "Delete Platform",
+    platform: platform,
+    games: games,
+  });
+});
+
 module.exports = {
   getPlatforms,
   getPlatformDetails,
   getCreatePlatformForm,
   postCreatePlatformForm,
+  getDeletePlatform,
 };
