@@ -21,8 +21,6 @@ const getPlatformDetails = asyncHandler(async (req, res, next) => {
   const platform = await db.getPlatformDetails(req.params.id);
   const games = await db.getPlatformGames(req.params.id);
 
-  console.log(games);
-
   if (!platform) {
     const err = new Error("Platform not found!");
     err.status = 404;
@@ -67,8 +65,6 @@ const getDeletePlatform = asyncHandler(async (req, res, next) => {
   const platform = await db.getPlatformDetails(req.params.id);
   const games = await db.getPlatformGames(req.params.id);
 
-  console.log(games);
-
   if (!platform) {
     const err = "Platform not found!";
     err.status = 404;
@@ -80,6 +76,23 @@ const getDeletePlatform = asyncHandler(async (req, res, next) => {
     platform: platform,
     games: games,
   });
+});
+
+const postDeletePlatform = asyncHandler(async (req, res, next) => {
+  const platform = await db.getPlatformDetails(req.params.id);
+  const games = await db.getPlatformGames(req.params.id);
+
+  if (games.length) {
+    res.render("platform_delete", {
+      title: "Delete Platform",
+      platform: platform,
+      games: games,
+    });
+    return;
+  }
+
+  await db.deletePlatform(req.params.id);
+  res.redirect("/");
 });
 
 module.exports = {
