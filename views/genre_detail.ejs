@@ -13,16 +13,22 @@
                 <div class="items-container">
                     <ul>
                      <% games.forEach(game => { %>
-                        <li><%= game.title %></li>
+                       <li><a href="<%= game.game_url %>"><%= game.game_title %></a></li>
                     <% }) %>
                    </ul>
                 </div>
                <% } %>
+
+               <div class="button-contianer">
+                <button type="submit"><a href="<%=genre.url %>/delete">DELETE</a></button>
+                <button type="submit"><a href="<%=genre.url %>/update">UPDATE</a></button>
             </section>
-            <%  } else { %>
+              <%  } else { %>
+                <div class="error-container">
+                    <span>Genre was not found!</span>
+                </div>
+                <% }%>
             
-              <p>Genre Not Found!</p>
-              <% }%>
       </main>
     </body>
   </head>
