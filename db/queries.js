@@ -47,7 +47,9 @@ async function getPlatforms() {
 
 async function getPlatformDetails(id) {
   const { rows } = await pool.query(`
-    SELECT platform.name as platform_name
+    SELECT 
+    platform.name as platform_name,
+    platform.url as platform_url
     FROM platform
     WHERE platform.id = ${id}`);
 
@@ -71,7 +73,9 @@ async function getGenres() {
 }
 
 async function getGenreDetails(id) {
-  const { rows } = await pool.query(`SELECT name as genre_name, url
+  const { rows } = await pool.query(`SELECT 
+    genre.name as genre_name, 
+    genre.url as genre_url
     FROM genre
     WHERE genre.id = ${id}`);
 
@@ -80,7 +84,7 @@ async function getGenreDetails(id) {
 
 async function getGenreGames(id) {
   const { rows } = await pool.query(`
-    SELECT title as game_title, genre as game_genre, url
+    SELECT title as game_title, genre as game_genre, url as game_url
     FROM game
       WHERE genre =  ${id};
     `);
@@ -92,7 +96,7 @@ async function getGameDetails(id) {
     const { rows } = await pool.query(`
             SELECT 
             game.title as game_title, game.publisher as game_publisher,
-            url,
+            game.url as game_url,
             developer.name as game_developer, genre.name as game_genre,
             game.date_of_release as game_release_date, publisher.name as game_publisher
             from game
@@ -192,7 +196,7 @@ async function getPublisherDetails(id) {
     const { rows } = await pool.query(`
       SELECT 
         name as publisher_name,
-        url,
+        publisher.url as publisher_url,
         location as publisher_location,
         founded as publisher_date_of_foundation,
         closed as publisher_close_status
@@ -234,7 +238,7 @@ async function getDeveloperDetails(id) {
   try {
     const { rows } = await pool.query(`
         SELECT developer.name as developer_name,
-               url,
+               developer.url as developer_url,
                developer.location as developer_location,
                developer.founded as developer_date_of_foundation,
                developer.closed as developer_status,
