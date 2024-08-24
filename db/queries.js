@@ -80,7 +80,7 @@ async function getGenreDetails(id) {
 
 async function getGenreGames(id) {
   const { rows } = await pool.query(`
-    SELECT title as game_title, genre as game_genre
+    SELECT title as game_title, genre as game_genre, url
     FROM game
       WHERE genre =  ${id};
     `);
