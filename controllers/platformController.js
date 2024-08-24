@@ -101,4 +101,5 @@ module.exports = {
   getCreatePlatformForm,
   postCreatePlatformForm,
   getDeletePlatform,
+  postDeletePlatform,
 };
