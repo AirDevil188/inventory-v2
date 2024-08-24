@@ -325,6 +325,27 @@ async function insertPlatform(name) {
   }
 }
 
+async function deletePlatform(id) {
+  try {
+    await pool.query(`
+      CREATE OR REPLACE delete_platform(number INTEGER) RETURNS VOID
+        LANGUAGE plpgsql AS
+          $$BEGIN
+          delete FROM platform WHERE id = $1;
+            EXCEPTION
+              WHEN foreign_key_violation THEN
+                RAISE EXCEPTION 'Platform contains games, before deleting this platform please delete games that are associated with it!'
+          END; $$;
+
+      `);
+
+    const { rows } = await pool.query("SELECT delete_platform($1)", [id]);
+    return rows[0];
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 module.exports = {
   countGames,
   countPublishers,
@@ -350,4 +371,5 @@ module.exports = {
   insertGenre,
   deleteGenre,
   insertPlatform,
+  deletePlatform,
 };
