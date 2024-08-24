@@ -58,7 +58,9 @@ async function getPlatformDetails(id) {
 
 async function getPlatformGames(id) {
   const { rows } = await pool.query(`
-    SELECT game.title as game_title
+    SELECT 
+      game.title as game_title,
+      game.url as game_url
     FROM game
     INNER JOIN game_platform
     ON game_id = game.id
