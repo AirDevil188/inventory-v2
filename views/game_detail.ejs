@@ -20,14 +20,17 @@
                 <% }) %>
               </div>
             </div>
+            <div class="genre-container">
+              <span><%= game.game_genre %></span>
+            </div>
+            <div class="release-date-container"">
+              <span> <%= game.game_release_date %></span>
+
+             
+              </div>
             <%  } else { %>
               <p>Game Not Found!</p>
               <% }%>
-              <div class="genre-container">
-                <span><%= game.game_genre %></span>
-              </div>
-              <div class="release-date-container"">
-                <span> <%= game.game_release_date %></span>
               </div>
             </section>
       </main>
