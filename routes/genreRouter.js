@@ -12,4 +12,8 @@ genreRouter.post("/create-genre", genreController.createGenreFormPost);
 
 genreRouter.get("/genre/:id", genreController.getGenreDetails);
 
+genreRouter.get("/genre/:id/delete", genreController.deleteGenreGet);
+
+genreRouter.post("/genre/:id/delete", genreController.deleteGenrePost);
+
 module.exports = genreRouter;
