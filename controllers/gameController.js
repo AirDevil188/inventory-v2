@@ -112,9 +112,32 @@ const postCreateGameForm = [
   }),
 ];
 
+const getGameDelete = asyncHandler(async (req, res, next) => {
+  const game = await db.getGameDetails(req.params.id);
+
+  if (!game) {
+    const err = new Error("Game not found!");
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render("game_delete", {
+    title: "Delete Game",
+    game: game,
+  });
+});
+
+const postGameDelete = asyncHandler(async (req, res, next) => {
+  await db.deleteGamePlatform(req.params.id);
+  await db.deleteGame(req.params.id);
+  res.redirect("/");
+});
+
 module.exports = {
   getGames,
   getCreateGameForm,
   getGameDetail,
   postCreateGameForm,
+  getGameDelete,
+  postGameDelete,
 };
