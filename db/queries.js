@@ -193,6 +193,43 @@ async function insertPublisher(name, location, founded, closed) {
   ]);
 }
 
+async function deleteGame(id) {
+  try {
+    await pool.query(
+      `
+       CREATE OR REPLACE FUNCTION delete_game(number INTEGER) RETURNS VOID
+    LANGUAGE plpgsql AS
+      $$BEGIN
+        delete FROM game WHERE id = $1;
+      END; $$;
+      `
+    );
+
+    const { rows } = await pool.query("SELECT delete_game($1)", [id]);
+    return rows[0];
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+async function deleteGamePlatform(id) {
+  try {
+    await pool.query(`
+      CREATE OR REPLACE FUNCTION delete_game_platform(number INTEGER) RETURNS VOID
+        LANGUAGE plpgsql AS
+          $$BEGIN
+            delete FROM game_platform WHERE game_id = $1;
+          END; $$;
+
+      `);
+
+    const { rows } = await pool.query("SELECT delete_game_platform($1)", [id]);
+    return rows[0];
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 async function getPublisherDetails(id) {
   try {
     const { rows } = await pool.query(`
@@ -382,6 +419,8 @@ module.exports = {
   getGamePlatform,
   getGameDetails,
   insertGame,
+  deleteGame,
+  deleteGamePlatform,
   insertPublisher,
   insertDeveloper,
   insertGenre,
