@@ -52,6 +52,8 @@ const postCreatePublisherForm = [
 const getPublisherDetails = asyncHandler(async (req, res, next) => {
   const publisher = await db.getPublisherDetails(req.params.id);
 
+  console.log(publisher);
+
   if (!publisher) {
     const err = new Error("Publisher not found!");
     err.status = 404;
@@ -65,9 +67,48 @@ const getPublisherDetails = asyncHandler(async (req, res, next) => {
   });
 });
 
+const getPublisherDelete = asyncHandler(async (req, res, next) => {
+  const publisher = await db.getPublisherDetails(req.params.id);
+  console.log(publisher);
+  const developers = await db.getPublisherDevelopers(req.params.id);
+  console.log(developers);
+
+  if (!publisher) {
+    const err = new Error("Publisher not found!");
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render("publisher_delete", {
+    title: "Delete Publisher",
+    publisher: publisher,
+    developers: developers,
+  });
+});
+
+const postPublisherDelete = asyncHandler(async (req, res, next) => {
+  const publisher = await db.getPublisherDetails(req.params.id);
+  const developers = await db.getPublisherDevelopers(req.params.id);
+
+  if (developers) {
+    if (developers.length) {
+      res.render("publisher_delete", {
+        title: "Delete Publisher",
+        publisher: publisher,
+        developers: developers,
+      });
+    }
+    return;
+  }
+  await db.deletePublisher(req.params.id);
+  res.redirect("/");
+});
+
 module.exports = {
   getPublishers,
   getPublisherDetails,
   getCreatePublisherForm,
   postCreatePublisherForm,
+  getPublisherDelete,
+  postPublisherDelete,
 };
