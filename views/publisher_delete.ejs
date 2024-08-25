@@ -1,0 +1,41 @@
+<html>
+    <head>
+        <title><%= title %> <%= publisher.publisher_name %> </title>
+        <body>
+            <main>
+                <section class="delete-section">
+                   <% if (publisher) { %> 
+                    <section class="delete-section">
+                        <% if (developers) { %>
+                            <% if (developers.length) { %>
+                                <span>Please make sure to first delete developers that are associated with this publisher!</span>
+                                <url>
+                                    <h4>List of Developers:</h4>
+                                    <% developers.forEach(publisher => { %>
+                                        <li><a href="<%= developer.developer_url%>"><%= developer.developer_name%></a></li>
+                                    <% }) %>
+                                </url>
+                                <div class="button-container">
+                                    <button type="button"><a href="<%=publisher.url %>">Cancel</a></button>
+                                </div>
+                        <% } %>
+                        <% }  else { %>
+                            <h3><%= title +  " " + publisher.publisher_name %> publisher </h3>
+                            <form action="<%=publisher.publisher_url %>/delete/" method="post">
+                                <button type="submit">YES</button>
+                                <button><a href="<%=publisher.url %>">Cancel</a></button>
+                            </form>
+
+                        <% }%>
+                    </section>
+                    <%  } else { %>
+                        <div class="error-container">
+                            <span>Publisher not found!</span>
+                        </div>
+                   <% } %>
+                </section>
+            </main>
+        </body>
+
+    </head>
+</html>
