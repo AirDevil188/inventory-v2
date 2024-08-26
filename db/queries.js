@@ -179,9 +179,10 @@ EXCEPTION
   const selectedGame = await pool.query(
     `
       SELECT id FROM game
-      WHERE title = '${title}'
-      AND developer = '${developer}'
-      `
+      WHERE title = $1
+      AND developer = $2
+      `,
+    [title, developer]
   );
 
   insertGamePlatform(selectedGame.rows[0].id, platforms);
