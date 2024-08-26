@@ -18,4 +18,14 @@ developerRouter.post(
 
 developerRouter.get("/developer/:id", developerController.getDeveloperDetails);
 
+developerRouter.get(
+  "/developer/:id/delete",
+  developerController.getDeveloperDelete
+);
+
+developerRouter.post(
+  "/developer/:id/delete",
+  developerController.postDeveloperDelete
+);
+
 module.exports = developerRouter;
