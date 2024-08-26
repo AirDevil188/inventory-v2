@@ -52,14 +52,11 @@ const postCreatePublisherForm = [
 const getPublisherDetails = asyncHandler(async (req, res, next) => {
   const publisher = await db.getPublisherDetails(req.params.id);
 
-  console.log(publisher);
-
   if (!publisher) {
     const err = new Error("Publisher not found!");
     err.status = 404;
     return next(err);
   }
-  console.log(publisher);
 
   res.render("publisher_detail", {
     title: "Publisher Details",
@@ -69,9 +66,7 @@ const getPublisherDetails = asyncHandler(async (req, res, next) => {
 
 const getPublisherDelete = asyncHandler(async (req, res, next) => {
   const publisher = await db.getPublisherDetails(req.params.id);
-  console.log(publisher);
   const developers = await db.getPublisherDevelopers(req.params.id);
-  console.log(developers);
 
   if (!publisher) {
     const err = new Error("Publisher not found!");
