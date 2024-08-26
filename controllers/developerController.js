@@ -73,9 +73,47 @@ const postDeveloperCreateForm = [
     res.redirect("/");
   }),
 ];
+
+const getDeveloperDelete = asyncHandler(async (req, res, next) => {
+  const developer = await db.getDeveloperDetails(req.params.id);
+  const games = await db.getDeveloperGames(req.params.id);
+
+  if (!developer) {
+    const err = new Error("Developer not found!");
+    err.status = 404;
+    return next(err);
+  }
+
+  res.render("developer_delete", {
+    title: "Delete Developer",
+    developer: developer,
+    games: games,
+  });
+});
+
+const postDeveloperDelete = asyncHandler(async (req, res, next) => {
+  const developer = await db.getDeveloperDetails(req.params.id);
+  const games = await db.getDeveloperGames(req.params.id);
+
+  if (games) {
+    if (games.length) {
+      res.render("developer_delete", {
+        title: "Delete Developer",
+        developer: developer,
+        games: games,
+      });
+    }
+    return;
+  }
+
+  await db.deleteDeveloper(req.params.id);
+  res.redirect("/");
+});
 module.exports = {
   getDevelopers,
   getDeveloperDetails,
   getDeveloperCreateForm,
   postDeveloperCreateForm,
+  getDeveloperDelete,
+  postDeveloperDelete,
 };
