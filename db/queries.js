@@ -46,25 +46,31 @@ async function getPlatforms() {
 }
 
 async function getPlatformDetails(id) {
-  const { rows } = await pool.query(`
+  const { rows } = await pool.query(
+    `
     SELECT 
     platform.name as platform_name,
     platform.url as platform_url
     FROM platform
-    WHERE platform.id = ${id}`);
+    WHERE platform.id = $1`,
+    [id]
+  );
 
   return rows[0];
 }
 
 async function getPlatformGames(id) {
-  const { rows } = await pool.query(`
+  const { rows } = await pool.query(
+    `
     SELECT 
       game.title as game_title,
       game.url as game_url
     FROM game
     INNER JOIN game_platform
     ON game_id = game.id
-    WHERE  platform_id = ${id}; `);
+    WHERE  platform_id = $1 `,
+    [id]
+  );
 
   return rows;
 }
@@ -75,27 +81,34 @@ async function getGenres() {
 }
 
 async function getGenreDetails(id) {
-  const { rows } = await pool.query(`SELECT 
+  const { rows } = await pool.query(
+    `SELECT 
     genre.name as genre_name, 
     genre.url as genre_url
     FROM genre
-    WHERE genre.id = ${id}`);
+    WHERE genre.id = $1`,
+    [id]
+  );
 
   return rows[0];
 }
 
 async function getGenreGames(id) {
-  const { rows } = await pool.query(`
+  const { rows } = await pool.query(
+    `
     SELECT title as game_title, genre as game_genre, url as game_url
     FROM game
-      WHERE genre =  ${id};
-    `);
+      WHERE genre =  $1;
+    `,
+    [id]
+  );
   return rows;
 }
 
 async function getGameDetails(id) {
   try {
-    const { rows } = await pool.query(`
+    const { rows } = await pool.query(
+      `
             SELECT 
             game.title as game_title, game.publisher as game_publisher,
             game.url as game_url,
@@ -108,7 +121,9 @@ async function getGameDetails(id) {
             ON developer.id =  game.developer
             INNER JOIN genre
             ON genre.id = game.genre
-            WHERE game.id = '${id}'`);
+            WHERE game.id = $1`,
+      [id]
+    );
 
     return rows[0];
   } catch (e) {
@@ -117,12 +132,15 @@ async function getGameDetails(id) {
 }
 
 async function getGamePlatform(id) {
-  const { rows } = await pool.query(`SELECT platform.name as platform_name 
+  const { rows } = await pool.query(
+    `SELECT platform.name as platform_name 
         FROM platform
         INNER JOIN game_platform
         ON platform.id = platform_id
-        WHERE game_id = '${id}'
-        `);
+        WHERE game_id = $1
+        `,
+    [id]
+  );
   return rows;
 }
 
@@ -194,14 +212,17 @@ async function insertPublisher(name, location, founded, closed) {
 }
 
 async function getPublisherDevelopers(id) {
-  const { rows } = await pool.query(`
+  const { rows } = await pool.query(
+    `
     SELECT
       developer.name as developer_name,
       developer.publisher as developer_publisher,
       developer.url as developer_url
     FROM developer
-      WHERE developer.publisher = ${id}.
-        `);
+      WHERE developer.publisher = $1;
+        `,
+    [id]
+  );
   return rows[0];
 }
 
@@ -264,7 +285,8 @@ async function deleteGamePlatform(id) {
 
 async function getPublisherDetails(id) {
   try {
-    const { rows } = await pool.query(`
+    const { rows } = await pool.query(
+      `
       SELECT 
         name as publisher_name,
         publisher.url as publisher_url,
@@ -272,8 +294,10 @@ async function getPublisherDetails(id) {
         founded as publisher_date_of_foundation,
         closed as publisher_close_status
           FROM publisher
-            WHERE id = ${id};
-      `);
+            WHERE id = $1;
+      `,
+      [id]
+    );
     return rows[0];
   } catch (e) {
     console.log(e);
@@ -345,7 +369,8 @@ async function getDeveloperGames(id) {
 
 async function getDeveloperDetails(id) {
   try {
-    const { rows } = await pool.query(`
+    const { rows } = await pool.query(
+      `
         SELECT developer.name as developer_name,
                developer.url as developer_url,
                developer.location as developer_location,
@@ -355,9 +380,11 @@ async function getDeveloperDetails(id) {
                 FROM developer
                   LEFT JOIN publisher
                     ON developer.publisher = publisher.id
-                      WHERE developer.id = ${id};
+                      WHERE developer.id = $1;
 
-        `);
+        `,
+      [id]
+    );
 
     return rows[0];
   } catch (e) {
