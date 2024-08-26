@@ -305,6 +305,44 @@ async function insertDeveloper(name, location, founded, closed, publisher) {
   }
 }
 
+async function deleteDeveloper(id) {
+  try {
+    await pool.query(`
+  CREATE OR REPLACE FUNCTION delete_developer(number INTEGER) RETURNS VOID
+    LANGUAGE plpgsql AS
+      $$BEGIN
+      delete FROM developer where id = $1;
+        EXCEPTION
+          WHEN foreign_key _violation
+          RAISE EXCEPTION 'Developer contains games entries before deleting this developer please delete games that are associated with it!';
+  `);
+  } catch (e) {
+    console.log(e);
+  }
+
+  const { rows } = await pool.query("SELECT delete_developer($1)", [id]);
+  return rows[0];
+}
+
+async function getDeveloperGames(id) {
+  try {
+    await pool.query(
+      `
+      SELECT 
+      game.title as game_title,
+      game.url as game_url,
+      game.developer as game_developer
+        FROM game
+        WHERE game.developer = $1;
+
+      `,
+      [id]
+    );
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 async function getDeveloperDetails(id) {
   try {
     const { rows } = await pool.query(`
@@ -443,6 +481,7 @@ module.exports = {
   getPublisherDevelopers,
   getDevelopers,
   getDeveloperDetails,
+  getDeveloperGames,
   getPlatforms,
   getPlatformDetails,
   getPlatformGames,
@@ -457,6 +496,7 @@ module.exports = {
   insertPublisher,
   deletePublisher,
   insertDeveloper,
+  deleteDeveloper,
   insertGenre,
   deleteGenre,
   insertPlatform,
