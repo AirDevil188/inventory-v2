@@ -67,6 +67,7 @@ const getPublisherDetails = asyncHandler(async (req, res, next) => {
 const getPublisherDelete = asyncHandler(async (req, res, next) => {
   const publisher = await db.getPublisherDetails(req.params.id);
   const developers = await db.getPublisherDevelopers(req.params.id);
+  const games = await db.getPublisherGames(req.params.id);
 
   if (!publisher) {
     const err = new Error("Publisher not found!");
@@ -78,23 +79,25 @@ const getPublisherDelete = asyncHandler(async (req, res, next) => {
     title: "Delete Publisher",
     publisher: publisher,
     developers: developers,
+    games: games,
   });
 });
 
 const postPublisherDelete = asyncHandler(async (req, res, next) => {
   const publisher = await db.getPublisherDetails(req.params.id);
   const developers = await db.getPublisherDevelopers(req.params.id);
+  const games = await db.getPublisherGames(req.params.id);
 
-  if (developers) {
-    if (developers.length) {
-      res.render("publisher_delete", {
-        title: "Delete Publisher",
-        publisher: publisher,
-        developers: developers,
-      });
-    }
+  if (developers.length > 0 || games.length > 0) {
+    res.render("publisher_delete", {
+      title: "Delete Publisher",
+      publisher: publisher,
+      developers: developers,
+      games: games,
+    });
     return;
   }
+
   await db.deletePublisher(req.params.id);
   res.redirect("/");
 });
