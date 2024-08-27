@@ -224,7 +224,21 @@ async function getPublisherDevelopers(id) {
         `,
     [id]
   );
-  return rows[0];
+  return rows;
+}
+
+async function getPublisherGames(id) {
+  const { rows } = await pool.query(
+    `
+  SELECT
+    game.title as game_title,
+    game.url as game_url
+    FROM game
+      WHERE game.publisher = $1;
+      `,
+    [id]
+  );
+  return rows;
 }
 
 async function deletePublisher(id) {
@@ -236,7 +250,7 @@ async function deletePublisher(id) {
         delete FROM publisher WHERE id = $1;
           EXCEPTION
             WHEN foreign_key_violation THEN
-              RAISE EXCEPTION 'Publisher contains developers entries before deleting this publisher please delete developers that are associated with it!';
+              RAISE EXCEPTION 'Publisher contains developers or games entries before deleting this publisher please delete developers  or games that are associated with it!';
       END; $$;
       `);
 
@@ -338,7 +352,7 @@ async function deleteDeveloper(id) {
       $$BEGIN
       delete FROM developer where id = $1;
         EXCEPTION
-          WHEN foreign_key _violation
+          WHEN foreign_key_violation
           RAISE EXCEPTION 'Developer contains games entries before deleting this developer please delete games that are associated with it!';
   `);
   } catch (e) {
@@ -507,6 +521,7 @@ module.exports = {
   getPublishers,
   getPublisherDetails,
   getPublisherDevelopers,
+  getPublisherGames,
   getDevelopers,
   getDeveloperDetails,
   getDeveloperGames,
