@@ -1,41 +1,43 @@
 <html>
     <head>
-        <title><%= title %> <%= publisher.publisher_name %> </title>
-        <body>
-            <main>
-                <section class="delete-section">
-                   <% if (publisher) { %> 
-                    <section class="delete-section">
-                        <% if (developers) { %>
-                            <% if (developers.length) { %>
-                                <span>Please make sure to first delete developers that are associated with this publisher!</span>
-                                <url>
-                                    <h4>List of Developers:</h4>
-                                    <% developers.forEach(publisher => { %>
-                                        <li><a href="<%= developer.developer_url%>"><%= developer.developer_name%></a></li>
-                                    <% }) %>
-                                </url>
-                                <div class="button-container">
-                                    <button type="button"><a href="<%=publisher.url %>">Cancel</a></button>
-                                </div>
-                        <% } %>
-                        <% }  else { %>
-                            <h3><%= title +  " " + publisher.publisher_name %> publisher </h3>
-                            <form action="<%=publisher.publisher_url %>/delete/" method="post">
-                                <button type="submit">YES</button>
-                                <button><a href="<%=publisher.url %>">Cancel</a></button>
-                            </form>
-
-                        <% }%>
-                    </section>
-                    <%  } else { %>
-                        <div class="error-container">
-                            <span>Publisher not found!</span>
-                        </div>
-                   <% } %>
-                </section>
-            </main>
-        </body>
-
+        <title><%= title + ": " + publisher.publisher_name %></title>
     </head>
+    <body>
+        <section class="delete-section">
+            <h3><%= title +  " " + publisher.publisher_name %> publisher </h3>
+            <% if (developers.length)  { %>
+                <span>Please make sure to first delete developers that are associated with this publisher!</span>
+                <div class="item-list">
+                    <h4>List of Developers: </h4>
+                    <ul>
+                    <% developers.forEach(developer => { %>
+                        <li><a href="<%= developer.developer_url %>"><%= developer.developer_name %></a></li>
+                    <% }) %>
+                </ul>
+                </div>
+          <%   } if (games.length) { %>
+            <span>Please make sure to first delete games that are associated with this publisher!</span>
+            <div class="item-list">
+                <h4>List of Games: </h4>
+                <ul>
+                <% games.forEach(game => { %>
+                    <li><a href="<%= game.game_url %>"><%= game.game_title %></a></li>
+                <% }) %>
+            </ul>
+            </div>
+          <% } if (!games.length && !developers.length) { %>
+            <div class="button-container">
+                <span><strong>Do you really want to delete this publisher?</strong></span>
+                <form action="<%=publisher.publisher_url %>/delete/" method="post">
+                    <button type="submit">Delete</button>
+                    <button><a href="<%=publisher.publisher %>">Cancel</a></button>
+                </form>
+            </div>
+          <% }  else if (games.length || developers.length) { %>
+            <div class="button-container">
+                <button><a href="<%=publisher.publisher %>">Cancel</a></button>
+            </div>
+          <% } %>
+        </section>
+    </body>
 </html>
