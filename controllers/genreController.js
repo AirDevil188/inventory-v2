@@ -20,7 +20,6 @@ const getGenres = asyncHandler(async (req, res, next) => {
 const getGenreDetails = asyncHandler(async (req, res, next) => {
   const genre = await db.getGenreDetails(req.params.id);
   const games = await db.getGenreGames(req.params.id);
-
   if (!genre) {
     const err = new Error("Genre not found!");
     err.status = 404;
@@ -37,6 +36,7 @@ const getGenreDetails = asyncHandler(async (req, res, next) => {
 const createGenreFormGet = asyncHandler(async (req, res, next) => {
   res.render("genre_form", {
     title: "Create Genre",
+    genre: undefined,
   });
 });
 
@@ -91,6 +91,33 @@ const deleteGenrePost = asyncHandler(async (req, res, next) => {
   res.redirect("/");
 });
 
+const updateGenreGet = asyncHandler(async (req, res, next) => {
+  const genre = await db.getGenreDetails(req.params.id);
+
+  res.render("genre_form", {
+    title: "Update Genre",
+    genre: genre,
+  });
+});
+
+const updateGenrePost = [
+  validateGenre,
+  asyncHandler(async (req, res, next) => {
+    const genre = await db.getGenreDetails(req.params.id);
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).render("genre_form", {
+        title: "Update Genre",
+        genre: genre,
+        errors: errors.array(),
+      });
+    }
+    const { name } = req.body;
+    await db.updateGenre(req.params.id, name);
+    res.redirect("/");
+  }),
+];
 module.exports = {
   getGenres,
   getGenreDetails,
@@ -98,4 +125,6 @@ module.exports = {
   createGenreFormPost,
   deleteGenreGet,
   deleteGenrePost,
+  updateGenreGet,
+  updateGenrePost,
 };
