@@ -82,7 +82,7 @@ const postDeletePlatform = asyncHandler(async (req, res, next) => {
   const platform = await db.getPlatformDetails(req.params.id);
   const games = await db.getPlatformGames(req.params.id);
 
-  if (games.length) {
+  if (games.length > 0) {
     res.render("platform_delete", {
       title: "Delete Platform",
       platform: platform,
