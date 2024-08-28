@@ -9,10 +9,10 @@
                 </div>
             </section>
             <section class="form-section">
-                <form action="/platforms/create-platform" method="POST" >
+                <form action=<%= platform ? platform.platform_url+"/update" : "/platforms/create-genre"%> method="POST">
                     <div class="form-group">
                         <label for="name">Name: </label>
-                        <input type="text" id="name" name="name">
+                        <input type="text" id="name" name="name" value="<%= platform ? platform.platform_name : ""%>">
                     </div>
                     <button type="submit">Submit</button>
                 </form>
