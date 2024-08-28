@@ -533,6 +533,28 @@ async function deletePlatform(id) {
   }
 }
 
+async function updatePlatform(id, name) {
+  try {
+    await pool.query(
+      `CREATE OR REPLACE FUNCTION update_platform(number INTEGER, name VARCHAR(255)) RETURNS VOID
+        LANGUAGE plpgsql AS
+          $$BEGIN
+            UPDATE platform
+              SET name = $2
+              WHERE id = $1;
+          END; $$;
+      `
+    );
+    const { rows } = await pool.query("SELECT update_platform($1, $2)", [
+      id,
+      name,
+    ]);
+    return rows[0];
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 module.exports = {
   countGames,
   countPublishers,
@@ -566,5 +588,6 @@ module.exports = {
   updateGenre,
   deleteGenre,
   insertPlatform,
+  updatePlatform,
   deletePlatform,
 };
