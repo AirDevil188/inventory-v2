@@ -365,7 +365,7 @@ async function deleteDeveloper(id) {
 
 async function getDeveloperGames(id) {
   try {
-    await pool.query(
+    const { rows } = await pool.query(
       `
       SELECT 
       game.title as game_title,
@@ -377,6 +377,7 @@ async function getDeveloperGames(id) {
       `,
       [id]
     );
+    return rows;
   } catch (e) {
     console.log(e);
   }
