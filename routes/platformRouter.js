@@ -28,4 +28,14 @@ platformRouter.post(
   platformController.postDeletePlatform
 );
 
+platformRouter.get(
+  "/platform/:id/update",
+  platformController.getUpdatePlatform
+);
+
+platformRouter.post(
+  "/platform/:id/update",
+  platformController.postUpdatePlatform
+);
+
 module.exports = platformRouter;
