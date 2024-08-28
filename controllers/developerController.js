@@ -29,7 +29,6 @@ const getDevelopers = asyncHandler(async (req, res, next) => {
 
 const getDeveloperDetails = asyncHandler(async (req, res, next) => {
   const developer = await db.getDeveloperDetails(req.params.id);
-  console.log(developer);
 
   if (!developer) {
     const err = new Error("Developer not found!");
