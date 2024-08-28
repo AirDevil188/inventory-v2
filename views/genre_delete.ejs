@@ -1,36 +1,33 @@
 <html>
     <head>
-        <title><%= title %> <%= genre.name %> </title>
-        <body>
-            <main>
-                <section class="delete-section">
-                   <% if (genre) { %> 
-                    <section class="delete-section">
-                        <% if (games.length) { %>
-                            <span>Please make sure to first delete the games that are associated with this genre!</span>
-                            <url>
-                                <h4>List of Games:</h4>
-                                <% games.forEach(game => { %>
-                                    <li><a href="<%= game.game_url%>"><%= game.game_title%></a></li>
-                                <% }) %>
-                            </url>
-                            <div class="button-container">
-                                <button type="button"><a href="<%=genre.url %>">Cancel</a></button>
-                            </div>
-                        <% }  else { %>
-                            <h3><%= title +  " " + genre.genre_name %> genre </h3>
-                            <form action="<%=genre.url %>/delete/" method="post">
-                                <button type="submit">YES</button>
-                                <button><a href="<%=genre.url %>">Cancel</a></button>
-                            </form>
-
-                        <% }%>
-                    </section>
-                    <%  } else { %>
-                   <% } %>
-                </section>
-            </main>
-        </body>
-
+        <title><%= title + ": " + genre.genre_name %></title>
     </head>
+    <body>
+        <section class="delete-section">
+            <h3><%= title +  " " + genre.genre_name %> genre </h3>
+          <%  if (games.length) { %>
+            <span>Please make sure to first delete games that are associated with this genre!</span>
+            <div class="item-list">
+                <h4>List of Games: </h4>
+                <ul>
+                <% games.forEach(game => { %>
+                    <li><a href="<%= genre.genre_url %>"><%= genre.genre_title %></a></li>
+                <% }) %>
+            </ul>
+            </div>
+          <% } if (!games.length) { %>
+            <div class="button-container">
+                <span><strong>Do you really want to delete this genre?</strong></span>
+                <form action="<%=genre.genre_url%>/delete/" method="post">
+                    <button type="submit">Delete</button>
+                    <button><a href="<%=genre.genre_url %>">Cancel</a></button>
+                </form>
+            </div>
+          <% }  else  { %>
+            <div class="button-container">
+                <button><a href="<%=genre.genre_url %>">Cancel</a></button>
+            </div>
+          <% } %>
+        </section>
+    </body>
 </html>
