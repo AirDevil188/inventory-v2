@@ -1,36 +1,33 @@
 <html>
     <head>
-        <title><%= title %> + <%= platform.name %>  </title>
-        <body>
-            <main>
-                <section class="delete-section">
-                   <% if (platform) { %> 
-                    <section class="delete-section">
-                        <% if (games.length) { %>
-                            <span>Please make sure to first delete the games that are associated with this platform!</span>
-                            <url>
-                                <h4>List of Games:</h4>
-                                <% games.forEach(game => { %>
-                                    <li><a href="<%= game.game_url%>"><%= game.game_title%></a></li>
-                                <% }) %>
-                            </url>
-                            <div class="button-container">
-                                <button type="button"><a href="<%=platform.platform_url %>">Cancel</a></button>
-                            </div>
-                        <% }  else { %>
-                            <h3><%= title +  " " + platform.platform_name %> platform </h3>
-                            <form action="<%=platform.platform_url %>/delete/" method="post">
-                                <button type="submit">Delete</button>
-                                <button><a href="<%=platform.platform_url %>">Cancel</a></button>
-                            </form>
-
-                        <% }%>
-                    </section>
-                    <%  } else { %>
-                   <% } %>
-                </section>
-            </main>
-        </body>
-
+        <title><%= title + ": " + platform.platform_name %></title>
     </head>
+    <body>
+        <section class="delete-section">
+            <h3><%= title +  " " + platform.platform_name %> platform </h3>
+          <%  if (games.length) { %>
+            <span>Please make sure to first delete games that are associated with this platform!</span>
+            <div class="item-list">
+                <h4>List of Games: </h4>
+                <ul>
+                <% games.forEach(game => { %>
+                    <li><a href="<%= game.game_url %>"><%= game.game_title %></a></li>
+                <% }) %>
+            </ul>
+            </div>
+          <% } if (!games.length) { %>
+            <div class="button-container">
+                <span><strong>Do you really want to delete this platform?</strong></span>
+                <form action="<%=platform.platform_url %>/delete/" method="post">
+                    <button type="submit">Delete</button>
+                    <button><a href="<%=platform.platform_url %>">Cancel</a></button>
+                </form>
+            </div>
+          <% }  else  { %>
+            <div class="button-container">
+                <button><a href="<%=platform.platform_url %>">Cancel</a></button>
+            </div>
+          <% } %>
+        </section>
+    </body>
 </html>
