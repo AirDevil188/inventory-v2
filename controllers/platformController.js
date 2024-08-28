@@ -37,6 +37,7 @@ const getPlatformDetails = asyncHandler(async (req, res, next) => {
 const getCreatePlatformForm = asyncHandler(async (req, res, next) => {
   res.render("platform_form", {
     title: "Create Platform",
+    platform: undefined,
   });
 });
 
@@ -95,6 +96,34 @@ const postDeletePlatform = asyncHandler(async (req, res, next) => {
   res.redirect("/");
 });
 
+const getUpdatePlatform = asyncHandler(async (req, res, next) => {
+  const platform = await db.getPlatformDetails(req.params.id);
+
+  res.render("platform_form", {
+    title: "Update Platform",
+    platform: platform,
+  });
+});
+
+const postUpdatePlatform = [
+  validatePlatform,
+  asyncHandler(async (req, res, next) => {
+    const platform = await db.getPlatformDetails(req.params.id);
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).render("platform_form", {
+        title: "Update Platform",
+        platform: platform,
+        errors: errors.array(),
+      });
+    }
+    const { name } = req.body;
+    await db.updatePlatform(req.params.id, name);
+    res.redirect("/");
+  }),
+];
+
 module.exports = {
   getPlatforms,
   getPlatformDetails,
@@ -102,4 +131,6 @@ module.exports = {
   postCreatePlatformForm,
   getDeletePlatform,
   postDeletePlatform,
+  getUpdatePlatform,
+  postUpdatePlatform,
 };
