@@ -467,6 +467,27 @@ async function deleteGenre(id) {
   }
 }
 
+async function updateGenre(id, name) {
+  try {
+    await pool.query(`
+      CREATE OR REPLACE FUNCTION update_genre(number INTEGER, name VARCHAR(255)) RETURNS VOID
+        LANGUAGE plpgsql AS
+          $$BEGIN
+            UPDATE genre
+            SET name = $2
+            WHERE id = $1;
+          END; $$;
+    
+      `);
+
+    const { rows } = pool.query("SELECT update_genre($1, $2)", [id, name]);
+
+    return rows[0];
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 async function insertPlatform(name) {
   try {
     await pool.query(
@@ -542,6 +563,7 @@ module.exports = {
   insertDeveloper,
   deleteDeveloper,
   insertGenre,
+  updateGenre,
   deleteGenre,
   insertPlatform,
   deletePlatform,
