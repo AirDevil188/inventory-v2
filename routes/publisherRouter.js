@@ -26,4 +26,14 @@ publisherRouter.post(
   publisherController.postPublisherDelete
 );
 
+publisherRouter.get(
+  "/publisher/:id/update",
+  publisherController.getPublisherUpdate
+);
+
+publisherRouter.post(
+  "/publisher/:id/update",
+  publisherController.postPublisherUpdate
+);
+
 module.exports = publisherRouter;
