@@ -28,4 +28,14 @@ developerRouter.post(
   developerController.postDeveloperDelete
 );
 
+developerRouter.get(
+  "/developer/:id/update",
+  developerController.getDeveloperUpdate
+);
+
+developerRouter.post(
+  "/developer/:id/update",
+  developerController.postDeveloperUpdate
+);
+
 module.exports = developerRouter;
