@@ -26,6 +26,7 @@ const getPublishers = asyncHandler(async (req, res, next) => {
 const getCreatePublisherForm = asyncHandler(async (req, res, next) => {
   res.render("publisher_form", {
     title: "Create Publisher",
+    publisher: undefined,
   });
 });
 
@@ -102,6 +103,36 @@ const postPublisherDelete = asyncHandler(async (req, res, next) => {
   res.redirect("/");
 });
 
+const getPublisherUpdate = asyncHandler(async (req, res, next) => {
+  const publisher = await db.getPublisherDetails(req.params.id);
+  const date = await db.getPublisherFoundedDate(req.params.id);
+
+  res.render("publisher_form", {
+    title: "Update Publisher",
+    publisher: publisher,
+    date: Object.values(date).toString(),
+  });
+});
+
+const postPublisherUpdate = [
+  validatePublisher,
+  asyncHandler(async (req, res, next) => {
+    const publisher = await db.getPublisherDetails(req.params.id);
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).render("publisher_form", {
+        title: "Update Publisher",
+        publisher: publisher,
+        errors: errors.array(),
+      });
+    }
+    const { name, location, founded, closed } = req.body;
+    await db.updatePublisher(req.params.id, name, location, founded, closed);
+    res.redirect("/");
+  }),
+];
+
 module.exports = {
   getPublishers,
   getPublisherDetails,
@@ -109,4 +140,6 @@ module.exports = {
   postCreatePublisherForm,
   getPublisherDelete,
   postPublisherDelete,
+  getPublisherUpdate,
+  postPublisherUpdate,
 };
