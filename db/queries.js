@@ -383,6 +383,32 @@ async function insertDeveloper(name, location, founded, closed, publisher) {
   }
 }
 
+async function updateDeveloper(id, name, location, founded, closed, publisher) {
+  try {
+    await pool.query(`
+      CREATE OR REPLACE FUNCTION update_developer(number INTEGER, name VARCHAR(255), location VARCHAR(255), founded DATE, closed BOOLEAN, publisher TEXT) RETURNS VOID
+        LANGUAGE plpgsql AS
+          $$BEGIN
+          UPDATE developer
+          SET name = $2,
+              location = $3,
+              founded = $4,
+              closed = $5,
+              publisher = CAST (NULLIF($6, '') AS INT)
+                WHERE id = $1;
+          END; $$;
+      `);
+
+    const { rows } = await pool.query(
+      "SELECT update_developer($1, $2, $3, $4, $5, $6)",
+      [id, name, location, founded, closed, publisher]
+    );
+    return rows[0];
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 async function deleteDeveloper(id) {
   try {
     await pool.query(`
@@ -431,7 +457,8 @@ async function getDeveloperDetails(id) {
                developer.location as developer_location,
                developer.founded as developer_date_of_foundation,
                developer.closed as developer_status,
-               developer.publisher as developer_publisher
+               developer.publisher as developer_publisher,
+               publisher.name as publisher_name 
                 FROM developer
                   LEFT JOIN publisher
                     ON developer.publisher = publisher.id
@@ -445,14 +472,21 @@ async function getDeveloperDetails(id) {
   } catch (e) {
     console.log(e);
   }
-  await pool.query("SELECT insert_developer($1, $2, $3, $4, $5)", [
-    name,
-    location,
-    founded,
-    closed,
-    publisher,
-  ]);
 }
+
+async function getDeveloperFoundedDate(id) {
+  try {
+    const { rows } = await pool.query(
+      `
+      SELECT to_char(founded, 'YYYY-DD-MM') from developer WHERE id = $1;`,
+      [id]
+    );
+    return rows[0];
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 async function insertGamePlatform(gameid, platforms) {
   for (let i = 0; i < platforms.length; i++) {
     try {
@@ -608,6 +642,7 @@ module.exports = {
   getPublisherGames,
   getDevelopers,
   getDeveloperDetails,
+  getDeveloperFoundedDate,
   getDeveloperGames,
   getPlatforms,
   getPlatformDetails,
@@ -624,6 +659,7 @@ module.exports = {
   updatePublisher,
   deletePublisher,
   insertDeveloper,
+  updateDeveloper,
   deleteDeveloper,
   insertGenre,
   updateGenre,
