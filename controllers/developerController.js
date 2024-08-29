@@ -48,6 +48,7 @@ const getDeveloperCreateForm = asyncHandler(async (req, res, next) => {
   res.render("developer_form", {
     title: "Create Developer",
     publishers: publishers,
+    developer: undefined,
   });
 });
 
@@ -66,7 +67,6 @@ const postDeveloperCreateForm = [
     }
 
     const { name, location, founded, closed, publisher } = req.body;
-    console.log(closed);
     await db.insertDeveloper(name, location, founded, closed, publisher);
 
     res.redirect("/");
@@ -75,6 +75,7 @@ const postDeveloperCreateForm = [
 
 const getDeveloperDelete = asyncHandler(async (req, res, next) => {
   const developer = await db.getDeveloperDetails(req.params.id);
+
   const games = await db.getDeveloperGames(req.params.id);
 
   if (!developer) {
@@ -108,6 +109,50 @@ const postDeveloperDelete = asyncHandler(async (req, res, next) => {
   await db.deleteDeveloper(req.params.id);
   res.redirect("/");
 });
+
+const getDeveloperUpdate = asyncHandler(async (req, res, next) => {
+  const developer = await db.getDeveloperDetails(req.params.id);
+  const date = await db.getDeveloperFoundedDate(req.params.id);
+  const publishers = await db.getPublishers();
+
+  res.render("developer_form", {
+    title: "Update Developer",
+    developer: developer,
+    publishers: publishers,
+    date: Object.values(date).toString(),
+  });
+});
+
+const postDeveloperUpdate = [
+  validateDeveloper,
+  asyncHandler(async (req, res, next) => {
+    const developer = await db.getDeveloperDetails(req.params.id);
+    const publishers = await db.getPublishers();
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).render("developer_form", {
+        title: "Update Developer",
+        developer: developer,
+        publishers: publishers,
+        errors: errors.array(),
+      });
+    }
+
+    const { name, location, founded, closed, publisher } = req.body;
+
+    await db.updateDeveloper(
+      req.params.id,
+      name,
+      location,
+      founded,
+      closed,
+      publisher
+    );
+
+    res.redirect("/");
+  }),
+];
 module.exports = {
   getDevelopers,
   getDeveloperDetails,
@@ -115,4 +160,6 @@ module.exports = {
   postDeveloperCreateForm,
   getDeveloperDelete,
   postDeveloperDelete,
+  getDeveloperUpdate,
+  postDeveloperUpdate,
 };
