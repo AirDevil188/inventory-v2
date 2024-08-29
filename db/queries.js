@@ -212,6 +212,32 @@ async function insertPublisher(name, location, founded, closed) {
   ]);
 }
 
+async function updatePublisher(id, name, location, founded, closed) {
+  try {
+    await pool.query(`
+      CREATE OR REPLACE FUNCTION update_publisher(number INTEGER, name VARCHAR(255), location VARCHAR(255), founded DATE, closed BOOLEAN)
+      RETURNS VOID
+        LANGUAGE plpgsql AS
+          $$BEGIN
+            UPDATE publisher
+            SET name = $2,
+                location = $3,
+                founded = $4,
+                closed = $5
+                  WHERE id = $1;
+          END; $$;  
+      `);
+
+    const { rows } = await pool.query(
+      "SELECT update_publisher($1, $2, $3, $4, $5)",
+      [id, name, location, founded, closed]
+    );
+    return rows[0], da;
+  } catch (e) {
+    console.log(e);
+  }
+}
+
 async function getPublisherDevelopers(id) {
   const { rows } = await pool.query(
     `
@@ -311,6 +337,19 @@ async function getPublisherDetails(id) {
           FROM publisher
             WHERE id = $1;
       `,
+      [id]
+    );
+    return rows[0];
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+async function getPublisherFoundedDate(id) {
+  try {
+    const { rows } = await pool.query(
+      `
+      SELECT to_char(founded, 'YYYY-DD-MM') from publisher WHERE id = $1;`,
       [id]
     );
     return rows[0];
@@ -564,6 +603,7 @@ module.exports = {
   getGames,
   getPublishers,
   getPublisherDetails,
+  getPublisherFoundedDate,
   getPublisherDevelopers,
   getPublisherGames,
   getDevelopers,
@@ -581,6 +621,7 @@ module.exports = {
   deleteGame,
   deleteGamePlatform,
   insertPublisher,
+  updatePublisher,
   deletePublisher,
   insertDeveloper,
   deleteDeveloper,
