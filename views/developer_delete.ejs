@@ -18,7 +18,7 @@
           <% } if (!games.length) { %>
             <div class="button-container">
                 <span><strong>Do you really want to delete this developer?</strong></span>
-                <form action="<%=developer.developer_url %>/delete/" method="post">
+                <form action="<%=developer.developer_url%>/delete/" method="post">
                     <button type="submit">Delete</button>
                     <button><a href="<%=developer.developer_url %>">Cancel</a></button>
                 </form>
