@@ -48,8 +48,6 @@ const getGameDetail = asyncHandler(async (req, res, next) => {
     return next(err);
   }
 
-  console.log(game);
-  console.log(platforms);
   res.render("game_detail", {
     title: "Game Detail",
     game: game,
@@ -67,6 +65,7 @@ const getCreateGameForm = asyncHandler(async (req, res, next) => {
 
   res.render("game_form", {
     title: "Add new Game",
+    game: undefined,
     publishers: publishers,
     developers: developers,
     platforms: platforms,
@@ -133,6 +132,60 @@ const postGameDelete = asyncHandler(async (req, res, next) => {
   res.redirect("/");
 });
 
+const getUpdateGame = asyncHandler(async (req, res, next) => {
+  const game = await db.getGameDetails(req.params.id);
+  const publishers = await db.getPublishers();
+  const developers = await db.getDevelopers();
+  const platforms = await db.getPlatforms();
+  const genres = await db.getGenres();
+  const date = await db.getGameFoundedDate(req.params.id);
+  const platformId = await db.getGamePlatform(req.params.id);
+
+  res.render("game_form", {
+    title: "Update Game",
+    game: game,
+    publishers: publishers,
+    developers: developers,
+    platforms: platforms,
+    genres: genres,
+    platformId: platformId,
+    date: Object.values(date).toString(),
+  });
+});
+
+const postUpdateGame = [
+  validateGame,
+  asyncHandler(async (req, res, next) => {
+    const game = await db.getGameDetails(req.params.id);
+    const publishers = await db.getPublishers();
+    const developers = await db.getDevelopers();
+    const date = await db.getGameFoundedDate(req.params.id);
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).render("game_form", {
+        title: "Update Game",
+        game: game,
+        publishers: publishers,
+        developers: developers,
+        date: Object.values(date).toString(),
+      });
+    }
+
+    const { title, publisher, developer, genre, date_of_release } = req.body;
+
+    await db.updateGame(
+      req.params.id,
+      title,
+      publisher,
+      developer,
+      genre,
+      date_of_release
+    );
+    res.redirect("/");
+  }),
+];
+
 module.exports = {
   getGames,
   getCreateGameForm,
@@ -140,4 +193,6 @@ module.exports = {
   postCreateGameForm,
   getGameDelete,
   postGameDelete,
+  getUpdateGame,
+  postUpdateGame,
 };
