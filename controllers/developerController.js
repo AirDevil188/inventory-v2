@@ -95,14 +95,13 @@ const postDeveloperDelete = asyncHandler(async (req, res, next) => {
   const developer = await db.getDeveloperDetails(req.params.id);
   const games = await db.getDeveloperGames(req.params.id);
 
-  if (games) {
-    if (games.length) {
-      res.render("developer_delete", {
-        title: "Delete Developer",
-        developer: developer,
-        games: games,
-      });
-    }
+  if (games.length > 0) {
+    res.render("developer_delete", {
+      title: "Delete Developer",
+      developer: developer,
+      games: games,
+    });
+
     return;
   }
 
