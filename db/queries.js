@@ -417,8 +417,9 @@ async function deleteDeveloper(id) {
       $$BEGIN
       delete FROM developer where id = $1;
         EXCEPTION
-          WHEN foreign_key_violation
+          WHEN foreign_key_violation THEN
           RAISE EXCEPTION 'Developer contains games entries before deleting this developer please delete games that are associated with it!';
+      END; $$;
   `);
   } catch (e) {
     console.log(e);
