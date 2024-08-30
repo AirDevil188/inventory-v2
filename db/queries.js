@@ -113,7 +113,9 @@ async function getGameDetails(id) {
             game.title as game_title, game.publisher as game_publisher,
             game.url as game_url,
             developer.name as game_developer, genre.name as game_genre,
-            game.date_of_release as game_release_date, publisher.name as game_publisher
+            game.date_of_release as game_release_date, publisher.name as game_publisher,
+            game.developer as game_developer_id, game.publisher as game_publisher_id,
+            game.genre as game_genre_id
             from game
             LEFT JOIN publisher
             ON publisher.id = game.publisher
@@ -131,9 +133,17 @@ async function getGameDetails(id) {
   }
 }
 
+async function getGameFoundedDate(id) {
+  const { rows } = await pool.query(
+    "SELECT to_char(date_of_release, 'YYYY-DD-MM') from game WHERE id = $1",
+    [id]
+  );
+  return rows[0];
+}
+
 async function getGamePlatform(id) {
   const { rows } = await pool.query(
-    `SELECT platform.name as platform_name 
+    `SELECT platform.name as platform_name, platform_id  
         FROM platform
         INNER JOIN game_platform
         ON platform.id = platform_id
@@ -141,7 +151,7 @@ async function getGamePlatform(id) {
         `,
     [id]
   );
-  return rows;
+  return rows[0];
 }
 
 async function insertGame(
@@ -186,6 +196,41 @@ EXCEPTION
   );
 
   insertGamePlatform(selectedGame.rows[0].id, platforms);
+}
+
+async function updateGame(
+  id,
+  title,
+  publisher,
+  developer,
+  genre,
+  date_of_release
+) {
+  try {
+    await pool.query(
+      `
+      CREATE OR REPLACE FUNCTION update_game(number INTEGER, title VARCHAR(255), publisher TEXT, developer INTEGER, genre INT, date_of_release DATE) RETURNS VOID
+        LANGUAGE plpgsql AS
+          $$BEGIN
+          UPDATE game
+          SET title = $2,
+              publisher = CAST (NULLIF($3, '') AS INT),
+              developer = $4,
+              genre = $5,
+              date_of_release = $6
+                WHERE id = $1;
+          END; $$;
+      `
+    );
+
+    const { rows } = await pool.query(
+      "SELECT update_game($1, $2, $3, $4, $5, $6)",
+      [id, title, publisher, developer, genre, date_of_release]
+    );
+    return rows[0];
+  } catch (e) {
+    console.log(e);
+  }
 }
 
 async function insertPublisher(name, location, founded, closed) {
@@ -653,7 +698,9 @@ module.exports = {
   getGenreGames,
   getGamePlatform,
   getGameDetails,
+  getGameFoundedDate,
   insertGame,
+  updateGame,
   deleteGame,
   deleteGamePlatform,
   insertPublisher,
