@@ -16,4 +16,8 @@ gameRouter.get("/game/:id/delete", gameController.getGameDelete);
 
 gameRouter.post("/game/:id/delete", gameController.postGameDelete);
 
+gameRouter.get("/game/:id/update", gameController.getUpdateGame);
+
+gameRouter.post("/game/:id/update", gameController.postUpdateGame);
+
 module.exports = gameRouter;
