@@ -169,6 +169,7 @@ const postUpdateGame = [
         publishers: publishers,
         developers: developers,
         date: Object.values(date).toString(),
+        errors: errors.array(),
       });
     }
 
