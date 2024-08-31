@@ -1,10 +1,55 @@
-*,
-*::before,
-*::after {
+html {
   box-sizing: border-box;
 }
 
-* {
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  display: grid;
+  grid-template-columns: 0.5fr 1fr 0.5fr;
+  grid-template-rows: 0.5fr 5fr;
   margin: 0;
   padding: 0;
+}
+
+a {
+  text-decoration: none;
+}
+
+li {
+  list-style: none;
+}
+
+nav {
+  grid-column: 2/4;
+  grid-row: 1/1;
+}
+
+nav > ul {
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+}
+
+aside {
+  display: flex;
+  grid-row: 1/4;
+  justify-content: center;
+}
+
+aside > ul {
+  display: flex;
+  flex-flow: column wrap;
+}
+
+aside > ul > li {
+  flex: 1;
+}
+
+main {
+  grid-column: 2/4;
 }
