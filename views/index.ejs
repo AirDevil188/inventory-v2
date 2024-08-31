@@ -1,13 +1,22 @@
 <html>
   <head>
-    <title>Inventory - Homepage</title>
+    <title><%= title %> </title>
     <link rel="stylesheet" href="/styles/styles.css">
   </head>
   <body>
     <%- include('navbar') %>
     <%- include('sidebar') %>
     <main>
-      <section class="items">
+      <section class="main-page-section">
+      <div class="header-container">
+      <h3>Welcome to Game Club!</h3>
+    </div>
+    <div class="hero-text-container">
+      <p>Everyone needs a place where you can find all of your favorite games, right? If you are looking for informations on your favorite games
+        then you are in the right place!
+      </p>
+    </div>
+    <div class="items-section">
         <ul>
           <li>Games: <%=games %></li>
           <li>Publishers: <%=publishers %></li>
@@ -15,6 +24,7 @@
           <li>Platforms: <%=platforms %></li>
           <li>Genres: <%=genres %></li>
         </ul>
+      </div>
       </section>
     </main>
   </body>
