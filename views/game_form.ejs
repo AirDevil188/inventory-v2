@@ -5,7 +5,6 @@
   </head>
   <body>
     <header><%- include('navbar') %></header>
-    <%- include('sidebar') %>
     <main>
       <section class="form-section">
         <form action=<%= game ? game.game_url+"/update" : "/games/create-game"%>

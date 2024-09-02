@@ -1,34 +1,39 @@
 <html>
-    <head>
-        <title><%= title + ": " + developer.developer_name %></title>
-        <link rel="stylesheet" href="/styles/styles.css">
-    </head>
-    <body>
-        <section class="delete-section">
-            <h3><%= title +  " " + developer.developer_name %> developer </h3>
-          <%  if (games.length) { %>
-            <span>Please make sure to first delete games that are associated with this developer!</span>
-            <div class="item-list">
-                <h4>List of Games: </h4>
-                <ul>
-                <% games.forEach(game => { %>
-                    <li><a href="<%= game.game_url %>"><%= game.game_title %></a></li>
-                <% }) %>
-            </ul>
-            </div>
-          <% } if (!games.length) { %>
-            <div class="button-container">
-                <span><strong>Do you really want to delete this developer?</strong></span>
-                <form action="<%=developer.developer_url%>/delete/" method="post">
-                    <button type="submit">Delete</button>
-                    <button><a href="<%=developer.developer_url %>">Cancel</a></button>
-                </form>
-            </div>
-          <% }  else  { %>
-            <div class="button-container">
-                <button><a href="<%=developer.developer_url %>">Cancel</a></button>
-            </div>
-          <% } %>
-        </section>
-    </body>
+  <head>
+    <title><%= title + ": " + developer.developer_name %></title>
+    <link rel="stylesheet" href="/styles/styles.css" />
+  </head>
+  <body>
+    <section class="delete-section">
+      <h3><%= title + " " + developer.developer_name %> developer</h3>
+      <% if (games.length) { %>
+      <span
+        >Please make sure to first delete games that are associated with this
+        developer!</span
+      >
+      <div class="item-list">
+        <h4>List of Games:</h4>
+        <ul>
+          <% games.forEach(game => { %>
+          <li><a href="<%= game.game_url %>"><%= game.game_title %></a></li>
+          <% }) %>
+        </ul>
+      </div>
+      <% } if (!games.length) { %>
+      <div class="button-container">
+        <span
+          ><strong>Do you really want to delete this developer?</strong></span
+        >
+        <form action="<%=developer.developer_url%>/delete/" method="post">
+          <button type="submit">Delete</button>
+          <button><a href="<%=developer.developer_url %>">Cancel</a></button>
+        </form>
+      </div>
+      <% } else { %>
+      <div class="button-container">
+        <button><a href="<%=developer.developer_url %>">Cancel</a></button>
+      </div>
+      <% } %>
+    </section>
+  </body>
 </html>

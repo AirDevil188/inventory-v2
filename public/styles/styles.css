@@ -3,8 +3,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap");
 
 :root {
-  --background-color: #000;
-  --text-color: #fff;
+  --background-color: #fff;
+  --sidebar-menu-color: #ccc;
+  --text-color: #000;
 }
 
 html {
@@ -30,6 +31,11 @@ body {
   color: var(--text-color);
 }
 
+header {
+  grid-row: 1/4;
+  background-color: var(--sidebar-menu-color);
+}
+
 a {
   text-decoration: none;
 }
@@ -38,47 +44,35 @@ li {
   list-style: none;
 }
 
-header {
-  grid-column: 2/4;
-}
-
-nav {
-  grid-column: 2/4;
-  grid-row: 1/1;
-}
-
-nav > ul {
-  display: flex;
-  flex-flow: row wrap;
-  justify-content: space-between;
-}
-
 li > a {
   color: var(--text-color);
 }
 
-aside {
-  display: flex;
-  grid-row: 1/4;
-  justify-content: center;
-}
-
-aside > ul {
+nav {
   display: flex;
   flex-flow: column wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  min-height: 100vh;
+  padding: 1rem;
 }
-
-aside > ul > li {
-  flex: 1;
+nav > ul {
+  display: flex;
+  flex-flow: column wrap;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  gap: 15px;
 }
 
 main {
   max-width: 1200px;
   grid-column: 2/4;
+  grid-row: 2/3;
 }
 
 footer {
   display: flex;
   justify-content: center;
-  grid-column: 1/4;
+  grid-column: 2/4;
+  grid-row: 3/4;
 }
