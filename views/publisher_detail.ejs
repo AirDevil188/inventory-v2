@@ -3,7 +3,8 @@
     <title><%= title %></title>
     <link rel="stylesheet" href="/styles/styles.css" />
     <body>
-      <%- include('navbar') %> <%- include('sidebar') %>
+      <header><%- include('navbar') %></header>
+      <%- include('sidebar') %>
       <main>
         <% if (publisher) { %>
         <section class="detail-section">

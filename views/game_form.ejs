@@ -4,7 +4,8 @@
     <link rel="stylesheet" href="/styles/styles.css" />
   </head>
   <body>
-    <%- include('navbar') %> <%- include('sidebar') %>
+    <header><%- include('navbar') %></header>
+    <%- include('sidebar') %>
     <main>
       <section class="form-section">
         <form action=<%= game ? game.game_url+"/update" : "/games/create-game"%>
