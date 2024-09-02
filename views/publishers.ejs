@@ -1,22 +1,21 @@
 <html>
   <head>
     <title><%=title %></title>
-    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/styles.css" />
   </head>
   <body>
-    <%- include('navbar') %>
-    <%- include('sidebar') %>
+    <%- include('navbar') %> <%- include('sidebar') %>
     <main>
       <section class="publishers-section">
-        <% if (publishers.length > 0) { %> 
-            <ul>
-            <% publishers.forEach((publisher) =>  { %>
-            <li><%= publisher.name %></li>
-      
-        <% }) %> <% } else { %>
-        <div class="text-container">
-          <p>There are no publishers!</p>
-        </div>
+        <% if (publishers.length > 0) { %>
+        <ul>
+          <% publishers.forEach((publisher) => { %>
+          <li><%= publisher.name %></li>
+
+          <% }) %> <% } else { %>
+          <div class="text-container">
+            <p>There are no publishers!</p>
+          </div>
           <%} %>
         </ul>
       </section>

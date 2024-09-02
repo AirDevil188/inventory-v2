@@ -1,26 +1,28 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/styles.css" />
   </head>
   <body>
-    <%- include('navbar') %>
-    <%- include('sidebar') %>
+    <%- include('navbar') %> <%- include('sidebar') %>
     <main>
-    <section class="form-section">
-      <form action=<%= game ? game.game_url+"/update" : "/games/create-game"%> method="POST">
+      <section class="form-section">
+        <form action=<%= game ? game.game_url+"/update" : "/games/create-game"%>
+        method="POST">
         <div class="form-group">
           <label for="title">Title: </label>
-          <input type="text" id="title" name="title" required value="<%= game ? game.game_title : ""%>" />
+          <input type="text" id="title" name="title" required value="<%= game ?
+          game.game_title : ""%>" />
         </div>
         <div class="form-group">
           <label for="publisher">Publisher: </label>
           <% if (publishers.length > 0) { %>
           <select name="publisher" id="publisher">
-            <option  value="" id="">-- Select publisher --</option>
-            <% publishers.forEach((publisher) => { %>
-                <option value="<%= publisher.id %>" id="<%= publisher.id %>" <%=game  && game.game_publisher_id === publisher.id ? 'selected' : ""%>><%= publisher.name %></option>
-              <% }) %> <% } else { %>
+            <option value="" id="">-- Select publisher --</option>
+            <% publishers.forEach((publisher) => { %> <option value="<%=
+            publisher.id %>" id="<%= publisher.id %>" <%=game &&
+            game.game_publisher_id === publisher.id ? 'selected' : ""%>><%=
+            publisher.name %> <% }) %> <% } else { %>
             <p>There are no publishers!</p>
             <% } %>
           </select>
@@ -29,21 +31,19 @@
           <label for="developer">Developer: </label>
           <% if (developers.length > 0) { %>
           <select name="developer" id="developer" required>
-            <% developers.forEach((developer) => { %>
-            <option value="<%= developer.id%>" <%= game && game.game_developer_id === developer.id ? 'selected' : ""%>><%= developer.name %></option>
-            <% }) %> <% } else { %>
+            <% developers.forEach((developer) => { %> <option value="<%=
+            developer.id%>" <%= game && game.game_developer_id === developer.id
+            ? 'selected' : ""%>><%= developer.name %> <% }) %> <% } else { %>
             <p>There are no developers!</p>
             <% } %>
           </select>
         </div>
         <div class="form-group">
           <label for="platforms">Platforms: </label>
-          <% if (platforms.length > 0) { %> <% platforms.forEach((platform) => {%>
-          <input
-            type="checkbox"
-            id="<%= platform.id %>"
-            name="platforms"
-            value="<%= platform.id %>"<%= game && platformId.platform_id === platform.id ? 'checked' : ""%>/>
+          <% if (platforms.length > 0) { %> <% platforms.forEach((platform) =>
+          {%> <input type="checkbox" id="<%= platform.id %>" name="platforms"
+          value="<%= platform.id %>"<%= game && platformId.platform_id ===
+          platform.id ? 'checked' : ""%>/>
           <label for="<%= platform.id %>"><%=platform.name %></label> <% }) %>
           <% } else { %>
           <p>There are no platforms!</p>
@@ -53,29 +53,22 @@
           <label for="genre">Genre: </label>
           <% if (genres.length > 0) { %>
           <select name="genre" id="genre" required>
-            <% genres.forEach((genre) => { %>
-            <option value="<%= genre.id %>" <%= game && game.game_genre_id === genre.id ? 'selected' : ""%>><%= genre.name %></option>
-            <% }) %> <% } else { %>
+            <% genres.forEach((genre) => { %> <option value="<%= genre.id %>"
+            <%= game && game.game_genre_id === genre.id ? 'selected' : ""%>><%=
+            genre.name %> <% }) %> <% } else { %>
             <p>There are no genres!</p>
             <% } %>
           </select>
         </div>
         <div class="form-group">
           <label for="date_of_release">Release Date: </label>
-          <input
-            type="date"
-            ,
-            id="date_of_release"
-            ,
-            name="date_of_release"
-            value="<%= game ? date : "" %>"
-            required
-          />
+          <input type="date" , id="date_of_release" , name="date_of_release"
+          value="<%= game ? date : "" %>" required />
         </div>
         <button type="submit">Submit</button>
-      </form>
-      <%- include("errors") %>
-    </section>
-  </main>
+
+        <%- include("errors") %>
+      </section>
+    </main>
   </body>
 </html>

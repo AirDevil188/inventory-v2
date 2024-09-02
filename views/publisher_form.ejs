@@ -1,50 +1,53 @@
 <html>
-    <head>
-        <title><%= title %></title>
-        <link rel="stylesheet" href="/styles/styles.css">
-    </head>
-    <body>
-        <%- include('navbar') %>
-        <%- include('sidebar') %>
-        <main>
-            <section class="title-section">
-                <h3><%= title %></h3>
-            </section>
+  <head>
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/styles/styles.css" />
+  </head>
+  <body>
+    <%- include('navbar') %> <%- include('sidebar') %>
+    <main>
+      <section class="title-section">
+        <h3><%= title %></h3>
+      </section>
 
-            <section class="form-section">
-                <form action=<%= publisher ? publisher.publisher_url+"/update" : "/publishers/create-publisher"%> method="POST">
-                    <div class="form-group">
-                        <label for="name">Name: </label>
-                        <input type="text" id="name" name="name"  value="<%=publisher ? publisher.publisher_name : "" %>" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="location">Location: </label>
-                        <input type="text" id="location" name="location" value="<%= publisher ? publisher.publisher_location : "" %>" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="founded">Date of Foundation: </label>
-                        <input type="date", id="founded", name="founded" value="<%= publisher ? date : "" %>" required>
-                    </div>
-                    <div class="form-group">
-                        <fieldset>
-                            <legend>Status - CLOSED - YES/NO</legend>
-                        <div>
-                            <input type="radio" id="yes" name="closed" value="t" <%= publisher && publisher.publisher_close_status ?  'checked' : '' %>>
-                            <label for="yes" >YES</label>
-                        </div>
-                        <div>
-                            <input type="radio" id="no" name="closed" value="f" <%= publisher &&  !publisher.publisher_close_status ?  'checked' : '' %>>
-                            <label for="no">NO</label>
-                        </div>
-                    </fieldset>
-                    </div>
-                    <div class="button-container">
-                        <button type="submit">Submit</button>
-                    </div>
-                </form>
-            </section>
-            <%- include("errors") %>
-        </main>
-    </body>
-
+      <section class="form-section">
+        <form action=<%= publisher ? publisher.publisher_url+"/update" :
+        "/publishers/create-publisher"%> method="POST">
+        <div class="form-group">
+          <label for="name">Name: </label>
+          <input type="text" id="name" name="name" value="<%=publisher ?
+          publisher.publisher_name : "" %>" required>
+        </div>
+        <div class="form-group">
+          <label for="location">Location: </label>
+          <input type="text" id="location" name="location" value="<%= publisher
+          ? publisher.publisher_location : "" %>" required>
+        </div>
+        <div class="form-group">
+          <label for="founded">Date of Foundation: </label>
+          <input type="date", id="founded", name="founded" value="<%= publisher
+          ? date : "" %>" required>
+        </div>
+        <div class="form-group">
+          <fieldset>
+            <legend>Status - CLOSED - YES/NO</legend>
+            <div>
+              <input type="radio" id="yes" name="closed" value="t" <%= publisher
+              && publisher.publisher_close_status ? 'checked' : '' %>>
+              <label for="yes">YES</label>
+            </div>
+            <div>
+              <input type="radio" id="no" name="closed" value="f" <%= publisher
+              && !publisher.publisher_close_status ? 'checked' : '' %>>
+              <label for="no">NO</label>
+            </div>
+          </fieldset>
+        </div>
+        <div class="button-container">
+          <button type="submit">Submit</button>
+        </div>
+      </section>
+      <%- include("errors") %>
+    </main>
+  </body>
 </html>

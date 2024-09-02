@@ -1,43 +1,45 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/styles.css" />
   </head>
-    <body>
-      <%- include('navbar') %>
-      <main>
-        <% if (game) { %>
-          <section class="detail-section">
-            <div class="title-container">
-              <h3><%= game.game_title %></h3>
-            </div>
-            <div class="publisher-container">
-              <span><%= game.game_publisher %></span>
-            </div>
-            <div class="developer-container">
-              <span><%= game.game_developer %></span>
-              <div class="platform-container">
-                <% platforms.forEach((platform) => { %>
-                  <span><%= platform.platform_name %></span>
-                <% }) %>
-              </div>
-            </div>
-            <div class="genre-container">
-              <span><%= game.game_genre %></span>
-            </div>
-            <div class="release-date-container"">
-              <span> <%= game.game_release_date %></span>
-              <div class="button-contianer">
-              <button type="submit"><a href="<%=game.game_url %>/delete">DELETE</a></button>
-              <button type="submit"><a href="<%=game.game_url %>/update">UPDATE</a></button>
-             
-              </div>
-            <%  } else { %>
-              <p>Game Not Found!</p>
-              <% }%>
-              </div>
-            </section>
-      </main>
-    </body>
-
+  <body>
+    <%- include('navbar') %> <%- include('sidebar') %>
+  </header>
+    <main>
+      <% if (game) { %>
+      <section class="detail-section">
+        <div class="title-container">
+          <h3><%= game.game_title %></h3>
+        </div>
+        <div class="publisher-container">
+          <span><%= game.game_publisher %></span>
+        </div>
+        <div class="developer-container">
+          <span><%= game.game_developer %></span>
+          <div class="platform-container">
+            <% platforms.forEach((platform) => { %>
+            <span><%= platform.platform_name %></span>
+            <% }) %>
+          </div>
+        </div>
+        <div class="genre-container">
+          <span><%= game.game_genre %></span>
+        </div>
+        <div class="release-date-container"">
+        <span> <%= game.game_release_date %></span>
+        <div class="button-contianer">
+          <button type="submit">
+            <a href="<%=game.game_url %>/delete">DELETE</a>
+          </button>
+          <button type="submit">
+            <a href="<%=game.game_url %>/update">UPDATE</a>
+          </button>
+        </div>
+        <% } else { %>
+        <p>Game Not Found!</p>
+        <% }%>
+      </section>
+    </main>
+  </body>
 </html>

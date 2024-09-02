@@ -1,21 +1,21 @@
 <html>
   <head>
     <title><%=title %></title>
-    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/styles.css" />
   </head>
   <body>
-    <%- include('navbar') %>
+    <%- include('navbar') %> <%- include('sidebar') %>
     <main>
       <section class="games-section">
-        <% if (games.length > 0) { %> 
-            <ul>
-            <% games.forEach((game) =>  { %>
-            <li><%= game.title %></li>
-      
-        <% }) %> <% } else { %>
-        <div class="text-container">
-          <p>There are no games!</p>
-        </div>
+        <% if (games.length > 0) { %>
+        <ul>
+          <% games.forEach((game) => { %>
+          <li><%= game.title %></li>
+
+          <% }) %> <% } else { %>
+          <div class="text-container">
+            <p>There are no games!</p>
+          </div>
           <%} %>
         </ul>
       </section>

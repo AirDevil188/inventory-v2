@@ -1,37 +1,40 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel="stylesheet" href="/styles/styles.css">
-</head>
-    <body>
-      <%- include('navbar') %>
-      <main>
-        <% if (genre) { %>
-            <section class="detail-section">
-                <div class="title-container">
-                    <h3><%= genre.genre_name %></h3>
-                </div>
-               <% if (games) { %>
-                <div class="items-container">
-                    <ul>
-                     <% games.forEach(game => { %>
-                       <li><a href="<%= game.game_url %>"><%= game.game_title %></a></li>
-                    <% }) %>
-                   </ul>
-                </div>
-               <% } %>
+    <link rel="stylesheet" href="/styles/styles.css" />
+  </head>
+  <body>
+    <%- include('navbar') %> <%- include('sidebar') %>
+    <main>
+      <% if (genre) { %>
+      <section class="detail-section">
+        <div class="title-container">
+          <h3><%= genre.genre_name %></h3>
+        </div>
+        <% if (games) { %>
+        <div class="items-container">
+          <ul>
+            <% games.forEach(game => { %>
+            <li><a href="<%= game.game_url %>"><%= game.game_title %></a></li>
+            <% }) %>
+          </ul>
+        </div>
+        <% } %>
 
-               <div class="button-contianer">
-                <button type="submit"><a href="<%=genre.genre_url%>/delete">DELETE</a></button>
-                <button type="submit"><a href="<%=genre.genre_url%>/update">UPDATE</a></button>
-                </div>
-            </section>
-              <%  } else { %>
-                <div class="error-container">
-                    <span>Genre was not found!</span>
-                </div>
-                <% }%>
-            
-      </main>
-    </body>
+        <div class="button-contianer">
+          <button type="submit">
+            <a href="<%=genre.genre_url%>/delete">DELETE</a>
+          </button>
+          <button type="submit">
+            <a href="<%=genre.genre_url%>/update">UPDATE</a>
+          </button>
+        </div>
+      </section>
+      <% } else { %>
+      <div class="error-container">
+        <span>Genre was not found!</span>
+      </div>
+      <% }%>
+    </main>
+  </body>
 </html>

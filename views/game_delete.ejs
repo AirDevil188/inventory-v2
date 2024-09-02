@@ -1,23 +1,21 @@
 <html>
-    <head>
-        <title><%= title %> <%= game.title %> </title>
-        <link rel="stylesheet" href="/styles/styles.css">
-        <body>
-            <main>
-                <section class="delete-section">
-                   <% if (game) { %> 
-                    <section class="delete-section">
-                            <h3><%= title +  " " + game.game_title %> game </h3>
-                            <form action="<%=game.game_url %>/delete/" method="post">
-                                <button type="submit">YES</button>
-                                <button><a href="<%=game.game_url %>">Cancel</a></button>
-                            </form>
-                    </section>
-                    <%  } else { %>
-                   <% } %>
-                </section>
-            </main>
-        </body>
-
-    </head>
+  <head>
+    <title><%= title %> <%= game.title %></title>
+    <link rel="stylesheet" href="/styles/styles.css" />
+    <body>
+      <main>
+        <section class="delete-section">
+          <% if (game) { %>
+          <section class="delete-section">
+            <h3><%= title + " " + game.game_title %> game</h3>
+            <form action="<%=game.game_url %>/delete/" method="post">
+              <button type="submit">YES</button>
+              <button><a href="<%=game.game_url %>">Cancel</a></button>
+            </form>
+          </section>
+          <% } else { %> <% } %>
+        </section>
+      </main>
+    </body>
+  </head>
 </html>

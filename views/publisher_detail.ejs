@@ -1,36 +1,40 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/styles.css" />
     <body>
-      <%- include('navbar') %>
+      <%- include('navbar') %> <%- include('sidebar') %>
       <main>
         <% if (publisher) { %>
-            <section class="detail-section">
-                <div class="title-container">
-                    <h3><%= publisher.publisher_name %></h3>
-                </div>
-                <div class="location-container">
-                    <span><%= publisher.publisher_location%></span>
-                </div>
-                <div class="date-foundation-container">
-                    <span><%= publisher.publisher_date_of_foundation %></span>
-                    <span><%= publisher.publisher_close_status %></span>
-                </div>
-                <% if (publisher.publisher_close_status) { %>
-                    <div class="status-container">
-                    <span>Publisher closed</span>
-                </div>
-            <% } %>
-            <div class="button-contianer">
-                <button type="submit"><a href="<%=publisher.publisher_url %>/delete">DELETE</a></button>
-                <button type="submit"><a href="<%=publisher.publisher_url %>/update">UPDATE</a></button>
-                </div>
-            </section>
-            <%  } else { %>
-            
-              <p>Publisher Not Found!</p>
-              <% }%>
+        <section class="detail-section">
+          <div class="title-container">
+            <h3><%= publisher.publisher_name %></h3>
+          </div>
+          <div class="location-container">
+            <span><%= publisher.publisher_location%></span>
+          </div>
+          <div class="date-foundation-container">
+            <span><%= publisher.publisher_date_of_foundation %></span>
+            <span><%= publisher.publisher_close_status %></span>
+          </div>
+          <% if (publisher.publisher_close_status) { %>
+          <div class="status-container">
+            <span>Publisher closed</span>
+          </div>
+          <% } %>
+          <div class="button-contianer">
+            <button type="submit">
+              <a href="<%=publisher.publisher_url %>/delete">DELETE</a>
+            </button>
+            <button type="submit">
+              <a href="<%=publisher.publisher_url %>/update">UPDATE</a>
+            </button>
+          </div>
+        </section>
+        <% } else { %>
+
+        <p>Publisher Not Found!</p>
+        <% }%>
       </main>
     </body>
   </head>

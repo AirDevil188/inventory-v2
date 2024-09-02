@@ -1,33 +1,38 @@
 <html>
   <head>
     <title><%= title %></title>
-    <link rel="stylesheet" href="/styles/styles.css">
-    <body>
-      <%- include('navbar') %>
-      <main>
-        <% if (platform) { %>
-            <section class="detail-section">
-                <div class="title-container">
-                    <h3><%= platform.platform_name %></h3>
-                </div>
-               <% if (games) { %>
-                <div class="items-container">
-                    <ul>
-                     <% games.forEach(game => { %>
-                       <li><a href="<%= game.game_url%>"><%= game.game_title %></a></li>
-                    <% }) %>
-                   </ul>
-                </div>
-               <% } %>
-               <div class="button-contianer">
-                <button type="submit"><a href="<%=platform.platform_url %>/delete">DELETE</a></button>
-                <button type="submit"><a href="<%=platform.platform_url %>/update">UPDATE</a></button>
-            </section>
-            <%  } else { %>
-            
-              <p>Platform Not Found!</p>
-              <% }%>
-      </main>
-    </body>
   </head>
+  <link rel="stylesheet" href="/styles/styles.css" />
+  <body>
+    <%- include('navbar') %> <%- include('sidebar') %>
+    <main>
+      <% if (platform) { %>
+      <section class="detail-section">
+        <div class="title-container">
+          <h3><%= platform.platform_name %></h3>
+        </div>
+        <% if (games) { %>
+        <div class="items-container">
+          <ul>
+            <% games.forEach(game => { %>
+            <li><a href="<%= game.game_url%>"><%= game.game_title %></a></li>
+            <% }) %>
+          </ul>
+        </div>
+        <% } %>
+        <div class="button-contianer">
+          <button type="submit">
+            <a href="<%=platform.platform_url %>/delete">DELETE</a>
+          </button>
+          <button type="submit">
+            <a href="<%=platform.platform_url %>/update">UPDATE</a>
+          </button>
+        </div>
+      </section>
+      <% } else { %>
+
+      <p>Platform Not Found!</p>
+      <% }%>
+    </main>
+  </body>
 </html>
