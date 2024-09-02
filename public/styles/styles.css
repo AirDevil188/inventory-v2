@@ -38,6 +38,10 @@ li {
   list-style: none;
 }
 
+header {
+  grid-column: 2/4;
+}
+
 nav {
   grid-column: 2/4;
   grid-row: 1/1;
@@ -46,7 +50,7 @@ nav {
 nav > ul {
   display: flex;
   flex-flow: row wrap;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 li > a {
@@ -71,4 +75,10 @@ aside > ul > li {
 main {
   max-width: 1200px;
   grid-column: 2/4;
+}
+
+footer {
+  display: flex;
+  justify-content: center;
+  grid-column: 1/4;
 }
