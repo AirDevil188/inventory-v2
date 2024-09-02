@@ -46,15 +46,15 @@
         </div>
         <div class="form-group">
           <fieldset>
-            <label for="closed">Closed: </label>
+            <legend>Status - CLOSED - YES/NO</legend>
             <div>
-              <input type="checkbox" id="t" value = "t" name="closed" <%=
-              developer && developer.developer_close_status ? 'checked' : "" %>>
+              <input type="radio" id="t" value = "t" name="closed" <%= developer
+              && developer.developer_close_status ? 'checked' : "" %>>
               <label for="t">YES</label>
             </div>
             <div>
-              <input type="checkbox" id="f" value="f" name="closed" <%=
-              developer && !developer.developer_close_status ? 'checked' : ""%>>
+              <input type="radio" id="f" value="f" name="closed" <%= developer
+              && !developer.developer_close_status ? 'checked' : ""%>>
               <label for="f">NO</label>
             </div>
           </fieldset>
