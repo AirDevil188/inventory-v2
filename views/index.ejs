@@ -2,6 +2,7 @@
   <head>
     <title><%= title %></title>
     <link rel="stylesheet" href="/styles/styles.css" />
+    <link rel="stylesheet" href="/styles/index.css" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
@@ -21,15 +22,46 @@
             games then you are in the right place!
           </p>
         </div>
-        <div class="items-section">
-          <ul>
-            <li>Games: <%=games %></li>
-            <li>Publishers: <%=publishers %></li>
-            <li>Developers: <%=developers %></li>
-            <li>Platforms: <%=platforms %></li>
-            <li>Genres: <%=genres %></li>
-          </ul>
-        </div>
+      </section>
+      <section class="dashboard-section">
+        <h3>Collection:</h3>
+        <ul>
+          <div class="box box-1">
+            <span><%= games %></span>
+            <h4>Number of Games</h4>
+            <div class="button-container">
+              <button type="button"><a href="/games">Details</a></button>
+            </div>
+          </div>
+          <div class="box box-2">
+            <span><%= publishers %></span>
+            <h4>Number of Publishers</h4>
+            <div class="button-container">
+              <button type="button"><a href="/publishers">Details</a></button>
+            </div>
+          </div>
+          <div class="box box-3">
+            <span><%= developers %></span>
+            <h4>Number of Developers</h4>
+            <div class="button-container">
+              <button type="button"><a href="/developers">Details</a></button>
+            </div>
+          </div>
+          <div class="box box-4">
+            <span><%= platforms %></span>
+            <h4>Number of Genres</h4>
+            <div class="button-container">
+              <button type="button"><a href="/genres">Details</a></button>
+            </div>
+          </div>
+          <div class="box box-5">
+            <span><%= genres %></span>
+            <h4>Number of Platforms</h4>
+            <div class="button-container">
+              <button type="button"><a href="/platforms">Details</a></button>
+            </div>
+          </div>
+        </ul>
       </section>
     </main>
   </body>

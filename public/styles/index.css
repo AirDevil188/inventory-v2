@@ -1,0 +1,55 @@
+.dashboard-section > ul {
+  display: grid;
+  gap: 15px;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-template-rows: repeat(auto-fit, 120px);
+}
+
+.box {
+  display: flex;
+  flex-flow: column nowrap;
+  border-radius: 15px;
+  gap: 15px;
+  padding: 1rem;
+  color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+}
+
+.box:hover {
+  transform: scale(1.05);
+}
+
+.box-1 {
+  background-color: orangered;
+}
+
+.box-2 {
+  background-color: cornflowerblue;
+}
+
+.box-3 {
+  background-color: yellowgreen;
+}
+
+.box-4 {
+  background-color: goldenrod;
+}
+.box-5 {
+  background-color: palevioletred;
+}
+
+.button-container {
+  align-self: self-end;
+}
+
+.button-container > button {
+  background: none;
+  border: none;
+  color: #fff;
+}
+
+button > a {
+  color: #fff;
+}
