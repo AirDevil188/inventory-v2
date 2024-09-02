@@ -64,7 +64,7 @@ const getCreateGameForm = asyncHandler(async (req, res, next) => {
   ]);
 
   res.render("game_form", {
-    title: "Add new Game",
+    title: "Create Game",
     game: undefined,
     publishers: publishers,
     developers: developers,
