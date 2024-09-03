@@ -1,5 +1,5 @@
 :root {
-  --button-color: #23344b;
+  --primary-color: #23344b;
 }
 
 form {
@@ -32,14 +32,25 @@ form > div {
 form > button {
   align-self: flex-end;
   width: 150px;
-  height: 25px;
+  height: 30px;
   color: #fff;
-  background-color: var(--button-color);
+  background-color: var(--primary-color);
   cursor: pointer;
+  text-transform: uppercase;
+  font-weight: 400;
+  border-radius: 10px;
+  font-size: 1.1rem;
 }
 
 .platforms-container {
   display: flex;
   align-items: center;
   gap: 10px;
+}
+
+.asterix {
+  color: orangered;
+}
+input:focus {
+  border-color: var(--primary-color);
 }
