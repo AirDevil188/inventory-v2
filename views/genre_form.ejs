@@ -20,8 +20,8 @@
         <form action=<%= genre ? genre.genre_url+"/update" :
         "/genres/create-genre"%> method="POST">
         <div class="form-group">
-          <label for="name">Name: </label>
-          <input type="text" id="name" name="name" value="<%= genre ?
+          <label for="name">Name: <span class="asterix">*</span></label>
+          <input type="text" required id="name" name="name" value="<%= genre ?
           genre.genre_name : "" %>">
         </div>
         <button type="submit">Submit</button>

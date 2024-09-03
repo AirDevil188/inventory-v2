@@ -19,26 +19,30 @@
         <form action=<%= publisher ? publisher.publisher_url+"/update" :
         "/publishers/create-publisher"%> method="POST">
         <div class="form-group">
-          <label for="name">Name: </label>
+          <label for="name">Name: <span class="asterix">*</span></label>
           <input type="text" id="name" name="name" value="<%=publisher ?
           publisher.publisher_name : "" %>" required>
         </div>
         <div class="form-group">
-          <label for="location">Location: </label>
+          <label for="location">Location: <span class="asterix">*</span></label>
           <input type="text" id="location" name="location" value="<%= publisher
           ? publisher.publisher_location : "" %>" required>
         </div>
         <div class="form-group">
-          <label for="founded">Date of Foundation: </label>
+          <label for="founded"
+            >Date of Foundation: <span class="asterix">*</span>
+          </label>
           <input type="date", id="founded", name="founded" value="<%= publisher
           ? date : "" %>" required>
         </div>
         <div class="form-group">
           <fieldset>
-            <legend>Status - CLOSED - YES/NO</legend>
+            <legend>
+              Status - CLOSED - YES/NO <span class="asterix">*</span>
+            </legend>
             <div>
-              <input type="radio" id="yes" name="closed" value="t" <%= publisher
-              && publisher.publisher_close_status ? 'checked' : '' %>>
+              <input type="radio" id="yes" required name="closed" value="t" <%=
+              publisher && publisher.publisher_close_status ? 'checked' : '' %>>
               <label for="yes">YES</label>
             </div>
             <div>

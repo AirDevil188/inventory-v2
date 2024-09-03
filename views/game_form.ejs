@@ -20,7 +20,7 @@
         <form action=<%= game ? game.game_url+"/update" : "/games/create-game"%>
         method="POST">
         <div class="form-group">
-          <label for="title">Title: </label>
+          <label for="title">Title: <span class="asterix">*</span></label>
           <input type="text" id="title" name="title" required value="<%= game ?
           game.game_title : ""%>" />
         </div>
@@ -38,7 +38,9 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="developer">Developer: </label>
+          <label for="developer"
+            >Developer: <span class="asterix">*</span></label
+          >
           <% if (developers.length > 0) { %>
           <select name="developer" id="developer" required>
             <% developers.forEach((developer) => { %> <option value="<%=
@@ -49,7 +51,9 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="platforms">Platforms: </label>
+          <label for="platforms"
+            >Platforms: <span class="asterix">*</span></label
+          >
           <div class="platforms-container">
             <% if (platforms.length > 0) { %> <% platforms.forEach((platform) =>
             {%> <input type="checkbox" id="<%= platform.id %>" name="platforms"
@@ -62,7 +66,7 @@
           <% } %>
         </div>
         <div class="form-group">
-          <label for="genre">Genre: </label>
+          <label for="genre">Genre: <span class="asterix">*</span></label>
           <% if (genres.length > 0) { %>
           <select name="genre" id="genre" required>
             <% genres.forEach((genre) => { %> <option value="<%= genre.id %>"
@@ -73,7 +77,9 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="date_of_release">Release Date: </label>
+          <label for="date_of_release"
+            >Release Date: <span class="asterix">*</span></label
+          >
           <input type="date" , id="date_of_release" , name="date_of_release"
           value="<%= game ? date : "" %>" required />
         </div>

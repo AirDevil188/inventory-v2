@@ -20,9 +20,9 @@
         <form action=<%= developer ? developer.developer_url+"/update" :
         "/developers/create-developer"%> method="POST">
         <div class="form-group">
-          <label for="name">Name: </label>
-          <input type="text" id="name" name="name" value="<%= developer ?
-          developer.developer_name : ""%>">
+          <label for="name">Name: <span class="asterix">*</span></label>
+          <input type="text" id="name" name="name" required value="<%= developer
+          ? developer.developer_name : ""%>">
         </div>
         <div class="form-group">
           <label for="publisher">Publisher: </label>
@@ -35,26 +35,30 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="location">Location: </label>
-          <input type="text" id="location" name="location" value="<%= developer
-          ? developer.developer_location : "" %>">
+          <label for="location">Location: <span class="asterix">*</span></label>
+          <input type="text" id="location" name="location" required value="<%=
+          developer ? developer.developer_location : "" %>">
         </div>
         <div class="form-group">
-          <label for="founded">Date of Foundation: </label>
-          <input type="date", id="founded", name="founded" value="<%= developer
-          ? date : "" %>">
+          <label for="founded"
+            >Date of Foundation: <span class="asterix">*</span></label
+          >
+          <input type="date", id="founded", required name="founded" value="<%=
+          developer ? date : "" %>">
         </div>
         <div class="form-group">
           <fieldset>
-            <legend>Status - CLOSED - YES/NO</legend>
+            <legend>
+              Status - CLOSED - YES/NO <span class="asterix">*</span>
+            </legend>
             <div>
-              <input type="radio" id="t" value = "t" name="closed" <%= developer
-              && developer.developer_close_status ? 'checked' : "" %>>
+              <input type="radio" id="t" value = "t" required name="closed" <%=
+              developer && developer.developer_close_status ? 'checked' : "" %>>
               <label for="t">YES</label>
             </div>
             <div>
-              <input type="radio" id="f" value="f" name="closed" <%= developer
-              && !developer.developer_close_status ? 'checked' : ""%>>
+              <input type="radio" id="f" value="f" name="closed" required <%=
+              developer && !developer.developer_close_status ? 'checked' : ""%>>
               <label for="f">NO</label>
             </div>
           </fieldset>
