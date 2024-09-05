@@ -44,17 +44,26 @@ const createGenreFormPost = [
   validateGenre,
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
+
     if (!errors.isEmpty()) {
       return res.status(400).render("genre_form", {
         title: "Create Genre",
+        genre: undefined,
         errors: errors.array(),
       });
     }
 
     const { name } = req.body;
-
-    await db.insertGenre(name);
-    res.redirect("/");
+    try {
+      await db.insertGenre(name);
+      res.redirect("/");
+    } catch (e) {
+      return res.status(400).render("genre_form", {
+        title: "Create Genre",
+        genre: undefined,
+        errors: [...[errors], { msg: e }],
+      });
+    }
   }),
 ];
 
