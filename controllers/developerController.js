@@ -137,28 +137,41 @@ const postDeveloperUpdate = [
     const developer = await db.getDeveloperDetails(req.params.id);
     const publishers = await db.getPublishers();
     const errors = validationResult(req);
+    const date = await db.getDeveloperFoundedDate(req.params.id);
 
     if (!errors.isEmpty()) {
       return res.status(400).render("developer_form", {
         title: "Update Developer",
         developer: developer,
         publishers: publishers,
+        date: date,
         errors: errors.array(),
       });
     }
 
     const { name, location, founded, closed, publisher } = req.body;
 
-    await db.updateDeveloper(
-      req.params.id,
-      name,
-      location,
-      founded,
-      closed,
-      publisher
-    );
+    try {
+      await db.updateDeveloper(
+        req.params.id,
+        name,
+        location,
+        founded,
+        closed,
+        publisher
+      );
 
-    res.redirect("/");
+      res.redirect("/");
+    } catch (e) {
+      console.log(e);
+      return res.status(400).render("developer_form", {
+        title: "Update Developer",
+        developer: developer,
+        publishers: publishers,
+        date: Object.values(date).toString(),
+        errors: [...[errors], { msg: e.detail }],
+      });
+    }
   }),
 ];
 module.exports = {
