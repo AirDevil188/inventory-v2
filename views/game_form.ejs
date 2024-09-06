@@ -51,12 +51,12 @@
           </select>
         </div>
         <div class="form-group">
-          <label for="platforms"
+          <label for="platform"
             >Platforms: <span class="asterix">*</span></label
           >
           <div class="platforms-container">
             <% if (platforms.length > 0) { %> <% platforms.forEach((platform) =>
-            {%> <input type="checkbox" id="<%= platform.id %>" name="platforms"
+            {%> <input type="checkbox" id="<%= platform.id %>" name="platform"
             value="<%= platform.id %>"<%= game && platformId.platform_id ===
             platform.id ? 'checked' : ""%>/>
             <label for="<%= platform.id %>"><%=platform.name %></label> <% }) %>
