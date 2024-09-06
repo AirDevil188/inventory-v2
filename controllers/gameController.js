@@ -39,7 +39,6 @@ const getGameDetail = asyncHandler(async (req, res, next) => {
     db.getGameDetails(req.params.id),
     db.getGamePlatform(req.params.id),
   ]);
-  console.log(platforms);
 
   if (!game) {
     const err = new Error("Game not found!");
@@ -50,7 +49,7 @@ const getGameDetail = asyncHandler(async (req, res, next) => {
   res.render("game_detail", {
     title: "Game Detail",
     game: game,
-    platforms: [platforms],
+    platforms: platforms,
   });
 });
 
