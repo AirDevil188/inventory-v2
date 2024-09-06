@@ -61,15 +61,24 @@ const postDeveloperCreateForm = [
     if (!errors.isEmpty()) {
       return res.status(400).render("developer_form", {
         title: "Create Developer",
+        developer: undefined,
         publishers: publishers,
         errors: errors.array(),
       });
     }
 
     const { name, location, founded, closed, publisher } = req.body;
-    await db.insertDeveloper(name, location, founded, closed, publisher);
-
-    res.redirect("/");
+    try {
+      await db.insertDeveloper(name, location, founded, closed, publisher);
+      res.redirect("/");
+    } catch (e) {
+      return res.status(400).render("developer_form", {
+        title: "Create Developer",
+        developer: undefined,
+        publishers: publishers,
+        errors: [...[errors], { msg: e.detail }],
+      });
+    }
   }),
 ];
 
