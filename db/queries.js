@@ -253,8 +253,7 @@ async function insertPublisher(name, location, founded, closed) {
 }
 
 async function updatePublisher(id, name, location, founded, closed) {
-  try {
-    await pool.query(`
+  await pool.query(`
       CREATE OR REPLACE FUNCTION update_publisher(number INTEGER, name VARCHAR(255), location VARCHAR(255), founded DATE, closed BOOLEAN)
       RETURNS VOID
         LANGUAGE plpgsql AS
@@ -265,17 +264,18 @@ async function updatePublisher(id, name, location, founded, closed) {
                 founded = $4,
                 closed = $5
                   WHERE id = $1;
+                  EXCEPTION
+                WHEN unique_violation THEN
+                  RAISE EXCEPTION 'Publisher already exists!'
+                    USING DETAIL = 'Publisher already exists!';
           END; $$;  
       `);
 
-    const { rows } = await pool.query(
-      "SELECT update_publisher($1, $2, $3, $4, $5)",
-      [id, name, location, founded, closed]
-    );
-    return rows[0], da;
-  } catch (e) {
-    console.log(e);
-  }
+  const { rows } = await pool.query(
+    "SELECT update_publisher($1, $2, $3, $4, $5)",
+    [id, name, location, founded, closed]
+  );
+  return rows[0];
 }
 
 async function getPublisherDevelopers(id) {
