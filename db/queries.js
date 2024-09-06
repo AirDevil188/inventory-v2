@@ -162,30 +162,28 @@ async function insertGame(
   genre,
   date_of_release
 ) {
-  try {
-    await pool.query(
-      `
-CREATE OR REPLACE FUNCTION insert_game(title VARCHAR(255), publisher TEXT, developer INT, genre INT, date_of_release DATE, url TEXT) RETURNS void
+  await pool.query(
+    `
+CREATE OR REPLACE FUNCTION insert_game(title VARCHAR(255), publisher TEXT, developer INT, genre INT, date_of_release DATE) RETURNS void
    LANGUAGE plpgsql AS
-$$BEGIN
-    INSERT INTO game(title, publisher, developer, genre, date_of_release, url) VALUES($1, CAST (NULLIF($2, '') AS INT), $3, $4, $5, $6);
-EXCEPTION
-   WHEN unique_violation THEN
-      RAISE EXCEPTION 'there is already a game with that title';
+   $$BEGIN
+      INSERT INTO game(title, publisher, developer, genre, date_of_release) VALUES($1, CAST (NULLIF($2, '') AS INT), $3, $4, $5);
+      EXCEPTION
+        WHEN unique_violation THEN
+          RAISE EXCEPTION 'Game already exists!'
+            USING DETAIL = 'Game already exists!!';
       
       END; $$;
 `
-    );
-    await pool.query(`SELECT insert_game($1, $2, $3, $4, $5)`, [
-      title,
-      publisher,
-      developer,
-      genre,
-      date_of_release,
-    ]);
-  } catch (e) {
-    console.log(e);
-  }
+  );
+  await pool.query(`SELECT insert_game($1, $2, $3, $4, $5)`, [
+    title,
+    publisher,
+    developer,
+    genre,
+    date_of_release,
+  ]);
+
   const selectedGame = await pool.query(
     `
       SELECT id FROM game
@@ -412,7 +410,10 @@ async function insertDeveloper(name, location, founded, closed, publisher) {
             INSERT INTO developer(name, location, founded, closed, publisher) VALUES ($1, $2, $3, $4, CAST  (NULLIF($5, '') AS INT));
             EXCEPTION
                 WHEN unique_violation THEN
-                  RAISE EXCEPTION 'Developer already exists!';
+                  RAISE EXCEPTION 'Developer already exists!'
+                    USING DETAIL = 'Developer already exists!';
+
+
           END; $$;
       `);
 
