@@ -45,20 +45,26 @@ const postCreatePlatformForm = [
   validatePlatform,
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
-    console.log(errors);
 
     if (!errors.isEmpty()) {
       return res.status(400).render("platform_form", {
         title: "Create Platform",
-
+        platform: undefined,
         errors: errors.array(),
       });
     }
 
     const { name } = req.body;
-    await db.insertPlatform(name);
-
-    res.redirect("/");
+    try {
+      await db.insertPlatform(name);
+      res.redirect("/");
+    } catch (e) {
+      return res.status(400).render("platform_form", {
+        title: "Create Platform",
+        platform: undefined,
+        errors: [...[errors], { msg: e.detail }],
+      });
+    }
   }),
 ];
 
