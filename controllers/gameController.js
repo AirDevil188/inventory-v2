@@ -10,12 +10,11 @@ const validateGame = [
     .trim()
     .isLength({ min: 1 })
     .withMessage(`Game Title ${lengthErr}`),
-
   body("developer")
     .trim()
     .notEmpty()
     .withMessage(`Game Developer ${selectionErr}`),
-  body("platforms")
+  body("platform")
     .trim()
     .notEmpty()
     .withMessage(`Game Platform ${selectionErr}`),
@@ -77,16 +76,17 @@ const postCreateGameForm = [
   validateGame,
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-      const [publishers, developers, platforms, genres] = await Promise.all([
-        db.getPublishers(),
-        db.getDevelopers(),
-        db.getPlatforms(),
-        db.getGenres(),
-      ]);
+    const [publishers, developers, platforms, genres] = await Promise.all([
+      db.getPublishers(),
+      db.getDevelopers(),
+      db.getPlatforms(),
+      db.getGenres(),
+    ]);
 
+    if (!errors.isEmpty()) {
       return res.status(400).render("game_form", {
         title: "Add new Game",
+        game: undefined,
         publishers: publishers,
         developers: developers,
         platforms: platforms,
@@ -95,19 +95,30 @@ const postCreateGameForm = [
       });
     }
 
-    const { title, publisher, developer, platforms, genre, date_of_release } =
+    const { title, publisher, developer, platform, genre, date_of_release } =
       req.body;
+    try {
+      await db.insertGame(
+        title,
+        publisher,
+        developer,
+        platform,
+        genre,
+        date_of_release
+      );
 
-    await db.insertGame(
-      title,
-      publisher,
-      developer,
-      platforms,
-      genre,
-      date_of_release
-    );
-
-    res.redirect("/");
+      res.redirect("/");
+    } catch (e) {
+      return res.status(400).render("game_form", {
+        title: "Add new Game",
+        game: undefined,
+        publishers: publishers,
+        developers: developers,
+        platforms: platforms,
+        genres: genres,
+        errors: [...[errors], { msg: e }],
+      });
+    }
   }),
 ];
 
