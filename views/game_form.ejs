@@ -60,10 +60,10 @@
             value="<%= platform.id %>"<%= game && platformId.platform_id ===
             platform.id ? 'checked' : ""%>/>
             <label for="<%= platform.id %>"><%=platform.name %></label> <% }) %>
+            <% } else { %>
+            <p>There are no platforms!</p>
+            <% } %>
           </div>
-          <% } else { %>
-          <p>There are no platforms!</p>
-          <% } %>
         </div>
         <div class="form-group">
           <label for="genre">Genre: <span class="asterix">*</span></label>
