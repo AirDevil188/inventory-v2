@@ -48,7 +48,6 @@ const postCreatePublisherForm = [
       await db.insertPublisher(name, location, founded, closed);
       res.redirect("/");
     } catch (e) {
-      console.log(e);
       return res.status(400).render("publisher_form", {
         title: "Create Publisher",
         publisher: undefined,
@@ -126,6 +125,7 @@ const postPublisherUpdate = [
   validatePublisher,
   asyncHandler(async (req, res, next) => {
     const publisher = await db.getPublisherDetails(req.params.id);
+    const date = await db.getPublisherFoundedDate(req.params.id);
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -136,8 +136,17 @@ const postPublisherUpdate = [
       });
     }
     const { name, location, founded, closed } = req.body;
-    await db.updatePublisher(req.params.id, name, location, founded, closed);
-    res.redirect("/");
+    try {
+      await db.updatePublisher(req.params.id, name, location, founded, closed);
+      res.redirect("/");
+    } catch (e) {
+      return res.status(400).render("publisher_form", {
+        title: "Update Publisher",
+        publisher: publisher,
+        date: Object.values(date).toString(),
+        errors: [...[errors], { msg: e.detail }],
+      });
+    }
   }),
 ];
 
