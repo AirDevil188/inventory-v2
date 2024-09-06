@@ -423,8 +423,7 @@ async function insertDeveloper(name, location, founded, closed, publisher) {
 }
 
 async function updateDeveloper(id, name, location, founded, closed, publisher) {
-  try {
-    await pool.query(`
+  await pool.query(`
       CREATE OR REPLACE FUNCTION update_developer(number INTEGER, name VARCHAR(255), location VARCHAR(255), founded DATE, closed BOOLEAN, publisher TEXT) RETURNS VOID
         LANGUAGE plpgsql AS
           $$BEGIN
@@ -435,17 +434,18 @@ async function updateDeveloper(id, name, location, founded, closed, publisher) {
               closed = $5,
               publisher = CAST (NULLIF($6, '') AS INT)
                 WHERE id = $1;
+                EXCEPTION
+                  WHEN unique_violation THEN
+                    RAISE EXCEPTION 'Developer already exists!'
+                    USING DETAIL = 'Developer already exists!';
           END; $$;
       `);
 
-    const { rows } = await pool.query(
-      "SELECT update_developer($1, $2, $3, $4, $5, $6)",
-      [id, name, location, founded, closed, publisher]
-    );
-    return rows[0];
-  } catch (e) {
-    console.log(e);
-  }
+  const { rows } = await pool.query(
+    "SELECT update_developer($1, $2, $3, $4, $5, $6)",
+    [id, name, location, founded, closed, publisher]
+  );
+  return rows[0];
 }
 
 async function deleteDeveloper(id) {
