@@ -589,24 +589,24 @@ async function deleteGenre(id) {
 }
 
 async function updateGenre(id, name) {
-  try {
-    await pool.query(`
+  await pool.query(`
       CREATE OR REPLACE FUNCTION update_genre(number INTEGER, name VARCHAR(255)) RETURNS VOID
         LANGUAGE plpgsql AS
           $$BEGIN
             UPDATE genre
             SET name = $2
             WHERE id = $1;
+            EXCEPTION
+                WHEN unique_violation THEN
+                  RAISE EXCEPTION 'Genre already exists!'
+                    USING DETAIL = 'Genre already exists!';
           END; $$;
     
       `);
 
-    const { rows } = pool.query("SELECT update_genre($1, $2)", [id, name]);
+  const { rows } = await pool.query("SELECT update_genre($1, $2)", [id, name]);
 
-    return rows[0];
-  } catch (e) {
-    console.log(e);
-  }
+  return rows[0];
 }
 
 async function insertPlatform(name) {
@@ -653,25 +653,25 @@ async function deletePlatform(id) {
 }
 
 async function updatePlatform(id, name) {
-  try {
-    await pool.query(
-      `CREATE OR REPLACE FUNCTION update_platform(number INTEGER, name VARCHAR(255)) RETURNS VOID
+  await pool.query(
+    `CREATE OR REPLACE FUNCTION update_platform(number INTEGER, name VARCHAR(255)) RETURNS VOID
         LANGUAGE plpgsql AS
           $$BEGIN
             UPDATE platform
               SET name = $2
               WHERE id = $1;
+              EXCEPTION
+                WHEN unique_violation THEN
+                  RAISE EXCEPTION 'Platform already exists!'
+                    USING DETAIL = 'Platform already exists!';
           END; $$;
       `
-    );
-    const { rows } = await pool.query("SELECT update_platform($1, $2)", [
-      id,
-      name,
-    ]);
-    return rows[0];
-  } catch (e) {
-    console.log(e);
-  }
+  );
+  const { rows } = await pool.query("SELECT update_platform($1, $2)", [
+    id,
+    name,
+  ]);
+  return rows[0];
 }
 
 module.exports = {
