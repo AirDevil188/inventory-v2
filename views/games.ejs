@@ -12,11 +12,11 @@
     <header><%- include('navbar') %></header>
     <main>
       <section class="games-section">
-        <div class="title-container">
+        <div class="heading-container">
           <h3>List of Games:</h3>
         </div>
         <% if (games.length > 0) { %>
-        <ul class="menu">
+        <ul class="item-list">
           <% games.forEach((game) => { %>
           <li><a href="<%= game.url %>"><%= game.title %></a></li>
 

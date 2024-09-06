@@ -11,10 +11,13 @@
     <header><%- include('navbar') %></header>
     <main>
       <section class="platforms-section">
+        <div class="heading-container">
+          <h3>List of Platforms:</h3>
+        </div>
         <% if (platforms.length > 0) { %>
-        <ul>
+        <ul class="item-list">
           <% platforms.forEach((platform) => { %>
-          <li><%= platform.name %></li>
+          <li><a href="<%=platform.url %>"><%= platform.name %></a></li>
 
           <% }) %> <% } else { %>
           <div class="text-container">

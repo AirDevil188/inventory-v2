@@ -2,6 +2,7 @@
   <head>
     <title><%=title %></title>
     <link rel="stylesheet" href="/styles/styles.css" />
+    <link rel="stylesheet" href="/styles/items.css" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
@@ -11,10 +12,13 @@
     <header><%- include('navbar') %></header>
     <main>
       <section class="developers-section">
+        <div class="heading-container">
+          <h3>List of Developers:</h3>
+        </div>
         <% if (developers.length > 0) { %>
-        <ul>
+        <ul class="item-list">
           <% developers.forEach((developer) => { %>
-          <li><%= developer.name %></li>
+          <li><a href="<%= developer.url %>"><%= developer.name %></a></li>
 
           <% }) %> <% } else { %>
           <div class="text-container">
