@@ -123,8 +123,17 @@ const updateGenrePost = [
       });
     }
     const { name } = req.body;
-    await db.updateGenre(req.params.id, name);
-    res.redirect("/");
+    try {
+      console.log(req.params.id);
+      await db.updateGenre(req.params.id, name);
+      res.redirect("/");
+    } catch (e) {
+      return res.status(400).render("genre_form", {
+        title: "Update Genre",
+        genre: genre,
+        errors: [...[errors], { msg: e.detail }],
+      });
+    }
   }),
 ];
 module.exports = {

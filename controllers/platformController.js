@@ -125,8 +125,16 @@ const postUpdatePlatform = [
       });
     }
     const { name } = req.body;
-    await db.updatePlatform(req.params.id, name);
-    res.redirect("/");
+    try {
+      await db.updatePlatform(req.params.id, name);
+      res.redirect("/");
+    } catch (e) {
+      return res.status(400).render("platform_form", {
+        title: "Update Platform",
+        platform: platform,
+        errors: [...[errors], { msg: e.detail }],
+      });
+    }
   }),
 ];
 
