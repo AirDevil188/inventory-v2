@@ -402,31 +402,27 @@ async function getPublisherFoundedDate(id) {
 }
 
 async function insertDeveloper(name, location, founded, closed, publisher) {
-  try {
-    await pool.query(`
+  await pool.query(`
           CREATE OR REPLACE FUNCTION insert_developer(name VARCHAR(255), location VARCHAR(255), founded DATE, closed BOOLEAN, publisher TEXT) RETURNS VOID
         LANGUAGE plpgsql AS
           $$BEGIN
             INSERT INTO developer(name, location, founded, closed, publisher) VALUES ($1, $2, $3, $4, CAST  (NULLIF($5, '') AS INT));
             EXCEPTION
                 WHEN unique_violation THEN
-                  RAISE EXCEPTION 'Developer already exists!'
-                    USING DETAIL = 'Developer already exists!';
+                   RAISE EXCEPTION 'Developer already exists!'
+                      USING DETAIL = 'Developer already exists!';
 
 
           END; $$;
       `);
 
-    await pool.query("SELECT insert_developer($1, $2, $3, $4, $5)", [
-      name,
-      location,
-      founded,
-      closed,
-      publisher,
-    ]);
-  } catch (e) {
-    console.log(e);
-  }
+  await pool.query("SELECT insert_developer($1, $2, $3, $4, $5)", [
+    name,
+    location,
+    founded,
+    closed,
+    publisher,
+  ]);
 }
 
 async function updateDeveloper(id, name, location, founded, closed, publisher) {
