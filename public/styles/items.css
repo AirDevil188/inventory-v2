@@ -1,0 +1,10 @@
+.item-list {
+  display: flex;
+  flex-flow: column wrap;
+  gap: 5px;
+  padding-top: 1rem;
+}
+
+.item-list > li > a {
+  color: navy;
+}
