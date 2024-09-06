@@ -599,27 +599,25 @@ async function updateGenre(id, name) {
 }
 
 async function insertPlatform(name) {
-  try {
-    await pool.query(
-      `
+  await pool.query(
+    `
        CREATE OR REPLACE FUNCTION insert_platform(name VARCHAR(255)) RETURNS VOID
         LANGUAGE plpgsql AS
           $$BEGIN
             INSERT INTO platform(name) VALUES ($1);
               EXCEPTION
                 WHEN unique_violation THEN
-                  RAISE EXCEPTION 'Platform already exists!';
-          END; $$;`
-    );
+                  RAISE EXCEPTION 'Platform already exists!'
+                    USING DETAIL = 'Platform already exists!';
+          END; $$;
+`
+  );
 
-    await pool.query(
-      `
+  await pool.query(
+    `
       SELECT insert_platform($1)`,
-      [name]
-    );
-  } catch (e) {
-    return console.log(e);
-  }
+    [name]
+  );
 }
 
 async function deletePlatform(id) {
