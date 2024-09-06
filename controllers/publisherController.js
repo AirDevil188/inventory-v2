@@ -38,15 +38,23 @@ const postCreatePublisherForm = [
     if (!errors.isEmpty()) {
       return res.status(400).render("publisher_form", {
         title: "Create Publisher",
-
+        publisher: undefined,
         errors: errors.array(),
       });
     }
     const { name, location, founded, closed } = req.body;
 
-    console.log(name, location, founded, closed);
-    await db.insertPublisher(name, location, founded, closed);
-    res.redirect("/");
+    try {
+      await db.insertPublisher(name, location, founded, closed);
+      res.redirect("/");
+    } catch (e) {
+      console.log(e);
+      return res.status(400).render("publisher_form", {
+        title: "Create Publisher",
+        publisher: undefined,
+        errors: [...[errors], { msg: e.detail }],
+      });
+    }
   }),
 ];
 
