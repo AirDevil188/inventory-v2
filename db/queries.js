@@ -26,22 +26,22 @@ async function countGenres() {
 }
 
 async function getGames() {
-  const { rows } = await pool.query("SELECT title, id FROM game");
+  const { rows } = await pool.query("SELECT title, id, url FROM game");
   return rows;
 }
 
 async function getPublishers() {
-  const { rows } = await pool.query("SELECT  name, id FROM publisher");
+  const { rows } = await pool.query("SELECT  name, id, url FROM publisher");
   return rows;
 }
 
 async function getDevelopers() {
-  const { rows } = await pool.query("SELECT name, id FROM developer");
+  const { rows } = await pool.query("SELECT name, id, url FROM developer");
   return rows;
 }
 
 async function getPlatforms() {
-  const { rows } = await pool.query("SELECT name, id FROM platform");
+  const { rows } = await pool.query("SELECT name, id, url FROM platform");
   return rows;
 }
 
@@ -151,7 +151,7 @@ async function getGamePlatform(id) {
         `,
     [id]
   );
-  return rows[0];
+  return rows;
 }
 
 async function insertGame(
@@ -193,7 +193,7 @@ CREATE OR REPLACE FUNCTION insert_game(title VARCHAR(255), publisher TEXT, devel
     [title, developer]
   );
 
-  insertGamePlatform(selectedGame.rows[0].id, platforms);
+  await insertGamePlatform(selectedGame.rows[0].id, platforms);
 }
 
 async function updateGame(
@@ -528,14 +528,25 @@ async function getDeveloperFoundedDate(id) {
 }
 
 async function insertGamePlatform(gameid, platforms) {
-  for (let i = 0; i < platforms.length; i++) {
+  if (Array.isArray(platforms)) {
+    try {
+      for (let i = 0; i < platforms.length; i++) {
+        await pool.query(
+          "INSERT INTO game_platform(game_id, platform_id) VALUES ($1, $2)",
+          [gameid, platforms[i]]
+        );
+      }
+    } catch (e) {
+      return e;
+    }
+  } else {
     try {
       await pool.query(
         "INSERT INTO game_platform(game_id, platform_id) VALUES ($1, $2)",
-        [gameid, platforms[i]]
+        [gameid, platforms]
       );
     } catch (e) {
-      console.log(e);
+      return e;
     }
   }
 }
