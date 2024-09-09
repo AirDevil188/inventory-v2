@@ -2,9 +2,15 @@
   <head>
     <title><%= title %></title>
     <link rel="stylesheet" href="/styles/styles.css" />
+    <link rel="stylesheet" href="/styles/navbar.css" />
+    <script src="/scripts/navbar.js" defer></script>
   </head>
   <body>
-    <header><%- include('navbar') %></header>
+    <header>
+      <span class="material-symbols-outlined" id="navIcon"> menu </span>
+      <h1>GameJoy</h1>
+    </header>
+    <%- include('navbar') %>
     <main>
       <% if (genre) { %>
       <section class="detail-section">

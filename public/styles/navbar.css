@@ -1,0 +1,134 @@
+:root {
+  --background-color: #fff;
+  --nav-menu-color: #23344b;
+}
+
+header {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+}
+
+nav {
+  height: 0;
+  display: none;
+  z-index: 99999;
+  background-color: var(--nav-menu-color);
+  padding: 0.5rem;
+}
+
+ul > button {
+  background-color: var(--nav-menu-color);
+  border: none;
+  text-transform: uppercase;
+  font-size: 1.3rem;
+  font-weight: 900;
+}
+
+#navIcon {
+  order: 1;
+  font-size: 3.2rem;
+  cursor: pointer;
+  color: #fff;
+}
+
+.nav-menu {
+  display: flex;
+  flex-flow: column wrap;
+  gap: 15px;
+}
+
+.overlay {
+  display: none;
+}
+
+.open {
+  display: block;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+}
+
+.expanded {
+  height: 100%;
+  display: flex;
+  grid-column: 1/4;
+  flex-flow: column wrap;
+  gap: 1rem;
+  animation: expand 500ms ease-in-out;
+  transform-origin: top;
+}
+
+.navigation-heading {
+  display: none;
+}
+
+h1 {
+  order: 0;
+}
+
+@keyframes expand {
+  0% {
+    transform: scaleY(0);
+  }
+
+  70% {
+    transform: scaleY(1.1);
+  }
+
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+@media (min-width: 800px) {
+  header {
+    grid-column: 1/2;
+    grid-row: 1/2;
+    justify-content: center;
+  }
+
+  nav {
+    display: flex;
+    justify-content: flex-start;
+    flex-flow: column wrap;
+    grid-column: 1/2;
+    height: 100vh;
+    grid-row: span 2;
+    gap: 10%;
+    background-color: var(--nav-menu-color);
+  }
+
+  #navIcon {
+    display: none;
+  }
+
+  .primary-navigation,
+  .secondary-navigation {
+    display: flex;
+    gap: 15px;
+    flex-flow: column wrap;
+  }
+
+  .navigation-heading {
+    display: flex;
+    flex-flow: column nowrap;
+    font-size: 1.3rem;
+    align-items: center;
+    gap: 10px;
+    color: #fff;
+  }
+
+  ul > button {
+    text-transform: capitalize;
+    font-size: 1.2rem;
+    font-weight: normal;
+  }
+
+  button:hover {
+    transform: scale(1.05);
+    transition: transform 0.2s;
+  }
+}

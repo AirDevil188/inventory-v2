@@ -7,9 +7,15 @@
       href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0"
     />
     <link rel="stylesheet" href="/styles/form.css" />
+    <link rel="stylesheet" href="/styles/navbar.css" />
+    <script src="/scripts/navbar.js" defer></script>
   </head>
   <body>
-    <header><%- include('navbar') %></header>
+    <header>
+      <span class="material-symbols-outlined" id="navIcon"> menu </span>
+      <h1>GameJoy</h1>
+    </header>
+    <%- include('navbar') %>
     <main>
       <section class="title-section">
         <div class="title-container">
