@@ -201,6 +201,7 @@ async function updateGame(
   title,
   publisher,
   developer,
+  platforms,
   genre,
   date_of_release
 ) {
@@ -225,6 +226,18 @@ async function updateGame(
       "SELECT update_game($1, $2, $3, $4, $5, $6)",
       [id, title, publisher, developer, genre, date_of_release]
     );
+
+    const selectedGame = await pool.query(
+      `
+        SELECT id FROM game
+        WHERE title = $1
+        AND developer = $2
+        `,
+      [title, developer]
+    );
+
+    const game = await updateGamePlatform(selectedGame.rows[0].id, platforms);
+    console.log(game, "GAMES");
     return rows[0];
   } catch (e) {
     console.log(e);
@@ -543,6 +556,38 @@ async function insertGamePlatform(gameid, platforms) {
     try {
       await pool.query(
         "INSERT INTO game_platform(game_id, platform_id) VALUES ($1, $2)",
+        [gameid, platforms]
+      );
+    } catch (e) {
+      return e;
+    }
+  }
+}
+
+async function updateGamePlatform(gameid, platforms) {
+  if (Array.isArray(platforms)) {
+    try {
+      for (let i = 0; i < platforms.length; i++) {
+        await pool.query(
+          `
+          UPDATE game_platform
+          SET platform_id = $2
+          WHERE game_id = $1;
+          `,
+          [gameid, platforms[i]]
+        );
+      }
+    } catch (e) {
+      return e;
+    }
+  } else {
+    try {
+      await pool.query(
+        `
+          UPDATE game_platform
+          SET platform_id = $2
+          WHERE game_id = $1;
+          `,
         [gameid, platforms]
       );
     } catch (e) {

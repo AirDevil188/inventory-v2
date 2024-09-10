@@ -29,8 +29,9 @@
           <span><strong>Developer: </strong><%= game.game_developer %></span>
         </div>
         <div class="platform-container">
+          <strong>Platform: </strong>
           <% platforms.forEach((platform) => { %>
-          <span><strong>Platform: </strong><%= platform.platform_name %></span>
+          <span><%= platform.platform_name %></span>
           <% }) %>
         </div>
 

@@ -183,13 +183,15 @@ const postUpdateGame = [
       });
     }
 
-    const { title, publisher, developer, genre, date_of_release } = req.body;
+    const { title, publisher, developer, platform, genre, date_of_release } =
+      req.body;
 
     await db.updateGame(
       req.params.id,
       title,
       publisher,
       developer,
+      platform,
       genre,
       date_of_release
     );
