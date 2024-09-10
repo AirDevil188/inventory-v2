@@ -1,0 +1,19 @@
+:root {
+  --primary-color: #23344b;
+}
+
+.button-container > button {
+  width: 150px;
+  height: 30px;
+  color: #fff;
+  background-color: var(--primary-color);
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: 400;
+  border-radius: 10px;
+  font-size: 1.1rem;
+}
+
+button > a {
+  color: #fff;
+}

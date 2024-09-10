@@ -32,6 +32,19 @@ body {
   color: var(--text-color);
 }
 
+footer {
+  display: flex;
+  justify-content: center;
+  grid-column: 1/4;
+  grid-row: 4/5;
+  background-color: var(--sidebar-menu-color);
+  padding: 1rem;
+  font-size: 1.2rem;
+}
+
+footer a {
+  color: #fff;
+}
 header {
   background-color: var(--sidebar-menu-color);
   grid-column: 1/4;
@@ -43,13 +56,6 @@ main {
   grid-column: 1/4;
   grid-row: 2/4;
   padding: 1rem;
-}
-
-footer {
-  display: flex;
-  justify-content: center;
-  grid-column: 1/4;
-  grid-row: 4/4;
 }
 
 a {
