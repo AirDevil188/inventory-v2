@@ -6,6 +6,7 @@
   --background-color: #fff;
   --sidebar-menu-color: #23344b;
   --text-color: #000;
+  --button-color: #23344b;
 }
 
 html {
@@ -77,6 +78,21 @@ li > a {
 
 h1 {
   text-align: center;
+  color: #fff;
+}
+form > button {
+  width: 150px;
+  height: 30px;
+  color: #fff;
+  background-color: var(--button-color);
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: 400;
+  border-radius: 10px;
+  font-size: 1.1rem;
+}
+
+button > a {
   color: #fff;
 }
 
