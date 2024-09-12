@@ -8,3 +8,11 @@
 .item-list > li > a {
   color: navy;
 }
+
+.items-container {
+  padding: 1rem;
+}
+
+.items-container ul > li > a {
+  color: navy;
+}
