@@ -1,4 +1,6 @@
 const { Client } = require("pg");
+const dotenv = require("dotenv");
+dotenv.config();
 
 const SQL = `
 
@@ -29,8 +31,7 @@ CREATE TABLE IF NOT EXISTS game_platform (game_id INTEGER REFERENCES game(id), p
 async function mainDriver() {
   console.log("sending information...");
   const client = new Client({
-    connectionString:
-      "postgres://inventory-app-v2-main-db-0107bfc3cc38e886f:7zVvE4bcNaDKXBEJyyVejRw5zBh8F9@user-prod-us-east-2-1.cluster-cfi5vnucvv3w.us-east-2.rds.amazonaws.com:5432/inventory-app-v2-main-db-0107bfc3cc38e886f",
+    connectionString: process.env.EXTERNAL_DB_CONNECTION_STRING,
   });
   await client.connect();
   await client.query(SQL);
